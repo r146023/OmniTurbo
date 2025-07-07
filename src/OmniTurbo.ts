@@ -1076,10 +1076,17 @@ class OmniTurbo {
 
     // ✅ FIXED: Update history BEFORE changing the value
     if (valueObj!.history && options.history !== false) {
-      // Add current value to history (not the new one!)
-      this._log("%cOmniTurbo[setInternalValue] : Adding to History: ","background:green", oldValue);
-      this._log(" %cOmniTurbo[setInternalValue] : Current History: ","background:green", valueObj!.history);
-      valueObj!.history.push(oldValue);
+      if (typeof valueObj!.historyIndex === 'number' && valueObj!.historyIndex > -1) {
+        // Remove all redoable values (those after the current index)
+        valueObj!.history.splice(valueObj!.history.length - valueObj!.historyIndex);
+        valueObj!.historyIndex = -1;
+      }
+      // Only push oldValue if it's not already the last entry
+      if (valueObj!.history.length === 0 || valueObj!.history[valueObj!.history.length - 1] !== oldValue) {
+        this._log("%cOmniTurbo[setInternalValue] : Adding to History: ","background:green", oldValue);
+        this._log(" %cOmniTurbo[setInternalValue] : Current History: ","background:green", valueObj!.history);
+        valueObj!.history.push(oldValue);
+      }
 
       // Maintain history size limit
       if (valueObj!.history.length > (valueObj!.historySize || 10)) {
@@ -1849,102 +1856,105 @@ class OmniTurbo {
   };
 
 
-  undo = (path: string): boolean => {
-    const valueObj = this.store.get(path);
-    if (!valueObj?.history || !this.canUndo(path)) return false;
+undo = (path: string): boolean => {
+  const valueObj = this.store.get(path);
+  if (!valueObj?.history || !this.canUndo(path)) return false;
 
+  const currentIndex = valueObj.historyIndex ?? -1;
+  var newIndex = currentIndex + 1;
+  this._log("%cOmniTurbo[undo] : Current History: ","background:#63630c", valueObj.history);
+  this._log("%cOmniTurbo[undo] : Current History Index: ","background:#63630c", currentIndex);
+  this._log("%cOmniTurbo[undo] : New History Index: ","background:#63630c", newIndex);
 
-    const currentIndex = valueObj.historyIndex ?? -1;
-    var newIndex = currentIndex + 1;
-    this._log("%cOmniTurbo[undo] : Current History: ","background:#63630c", valueObj.history);
-    this._log("%cOmniTurbo[undo] : Current History Index: ","background:#63630c", currentIndex);
-    this._log("%cOmniTurbo[undo] : New History Index: ","background:#63630c", newIndex);
-
-    // Store current value in history if we're at the "current" position
-    if (currentIndex === -1) {
-      this._log("%cOmniTurbo[undo] : Adding current value to history before undoing: ","background:#63630c", valueObj.value);
-      valueObj.history.push(valueObj.value);
-      valueObj.historyIndex = 0; // Reset index to 0 after adding current value
-      newIndex = 1; // Start from the beginning of history
-      // Maintain history size limit
-      if (valueObj.history.length > (valueObj.historySize || 10)) {
-        this._log("%cOmniTurbo[undo] : History size exceeded, removing oldest entry","background:#797f38");
-        valueObj.history.shift();
-        // Adjust index since we removed from beginning
-        valueObj.historyIndex = (valueObj.historyIndex ?? -1) + 1;
-        return this.undo(path); // Try again with adjusted index
-      }
+  // Store current value in history if we're at the "current" position
+  if (currentIndex === -1) {
+    this._log("%cOmniTurbo[undo] : Adding current value to history before undoing: ","background:#63630c", valueObj.value);
+    valueObj.history.push(valueObj.value);
+    valueObj.historyIndex = 0; // Reset index to 0 after adding current value
+    newIndex = 1; // Start from the beginning of history
+    // Maintain history size limit
+    if (valueObj.history.length > (valueObj.historySize || 10)) {
+      this._log("%cOmniTurbo[undo] : History size exceeded, removing oldest entry","background:#797f38");
+      valueObj.history.shift();
+      // Adjust index since we removed from beginning
+      valueObj.historyIndex = (valueObj.historyIndex ?? -1) + 1;
+      return this.undo(path); // Try again with adjusted index
     }
+  }
 
-    // Navigate to previous value
-    const targetValue = valueObj.history[valueObj.history.length - 1 - newIndex];
-    const oldValue = valueObj.value;
+  // Navigate to previous value
+  const targetValue = valueObj.history[valueObj.history.length - 1 - newIndex];
+  const oldValue = valueObj.value;
 
-    valueObj.value = targetValue;
-    valueObj.prev = oldValue;
-    valueObj.historyIndex = newIndex;
-    valueObj.updated = Date.now();
+  valueObj.value = targetValue;
+  valueObj.prev = oldValue;
+  valueObj.historyIndex = newIndex;
+  valueObj.updated = Date.now();
 
-    this._addToTimeline(path, oldValue, targetValue, 'undo');
+  this._addToTimeline(path, oldValue, targetValue, 'undo');
 
-    // Notify subscribers
-    if (this.quickMode) {
-      this.fastStore.set(path, valueObj.value);
-      this._nuclearNotify(path, valueObj.value, oldValue);
-    } else {
-      this._notifyGlobalSubscribers(path, valueObj.value,valueObj.prev);
-      this._adaptiveNotify(path, valueObj.value, oldValue);
-    }
-    return true;
-  };
+  // Notify subscribers and alerts
+  if (this.quickMode) {
+    this.fastStore.set(path, valueObj.value);
+    this._nuclearNotify(path, valueObj.value, oldValue);
+  } else {
+    this._notifyGlobalSubscribers(path, valueObj.value, oldValue);
+    this._adaptiveNotify(path, valueObj.value, oldValue);
+  }
+  // 🔥 Trigger alerts for undo
+  this._triggerTurboAlerts(path, valueObj.value, oldValue);
 
-  redo = (path: string): boolean => {
-    const valueObj = this.store.get(path);
-    if (!valueObj?.history || !this.canRedo(path)) return false;
+  return true;
+};
 
-    const currentIndex = valueObj.historyIndex ?? -1;
-    const newIndex = currentIndex - 1; // Move forward (closer to current)
-    
-    this._log("%cOmniTurbo[redo] : Current History: ","background:#3a9b94", valueObj.history);
-    this._log("%cOmniTurbo[redo] : Current History Index: ","background:#3a9b94", currentIndex);
-    this._log("%cOmniTurbo[redo] : New History Index: ","background:#3a9b94", newIndex);
+redo = (path: string): boolean => {
+  const valueObj = this.store.get(path);
+  if (!valueObj?.history || !this.canRedo(path)) return false;
 
-    // Get the target value
-    let targetValue: any;
-    
-    if (newIndex === -1) {
-      // Moving back to the "current" value (the one that was added when first undo was called)
-      targetValue = valueObj.history[valueObj.history.length - 1];
-      this._log("%cOmniTurbo[redo] : Moving back to current value: ","background:#3a9b94", targetValue);
-    } else {
-      // Get value from history
-      targetValue = valueObj.history[valueObj.history.length - 1 - newIndex];
-      this._log("%cOmniTurbo[redo] : Moving to history value: ","background:#3a9b94", targetValue);
-    }
+  const currentIndex = valueObj.historyIndex ?? -1;
+  const newIndex = currentIndex - 1; // Move forward (closer to current)
+  
+  this._log("%cOmniTurbo[redo] : Current History: ","background:#3a9b94", valueObj.history);
+  this._log("%cOmniTurbo[redo] : Current History Index: ","background:#3a9b94", currentIndex);
+  this._log("%cOmniTurbo[redo] : New History Index: ","background:#3a9b94", newIndex);
 
-    const oldValue = valueObj.value;
+  // Get the target value
+  let targetValue: any;
+  
+  if (newIndex === -1) {
+    // Moving back to the "current" value (the one that was added when first undo was called)
+    targetValue = valueObj.history[valueObj.history.length - 1];
+    this._log("%cOmniTurbo[redo] : Moving back to current value: ","background:#3a9b94", targetValue);
+  } else {
+    // Get value from history
+    targetValue = valueObj.history[valueObj.history.length - 1 - newIndex];
+    this._log("%cOmniTurbo[redo] : Moving to history value: ","background:#3a9b94", targetValue);
+  }
 
-    // Update the value and index
-    valueObj.value = targetValue;
-    valueObj.prev = oldValue;
-    valueObj.historyIndex = newIndex;
-    valueObj.updated = Date.now();
+  const oldValue = valueObj.value;
 
+  // Update the value and index
+  valueObj.value = targetValue;
+  valueObj.prev = oldValue;
+  valueObj.historyIndex = newIndex;
+  valueObj.updated = Date.now();
 
-    this._addToTimeline(path, oldValue, targetValue, 'redo');
+  this._addToTimeline(path, oldValue, targetValue, 'redo');
 
-    // Notify subscribers
-    if (this.quickMode) {
-      this.fastStore.set(path, valueObj.value);
-      this._nuclearNotify(path, valueObj.value, oldValue);
-    } else {
-      this._notifyGlobalSubscribers(path, valueObj.value, oldValue);
-      this._adaptiveNotify(path, valueObj.value, oldValue);
-    }
+  // Notify subscribers and alerts
+  if (this.quickMode) {
+    this.fastStore.set(path, valueObj.value);
+    this._nuclearNotify(path, valueObj.value, oldValue);
+  } else {
+    this._notifyGlobalSubscribers(path, valueObj.value, oldValue);
+    this._adaptiveNotify(path, valueObj.value, oldValue);
+  }
+  // 🔥 Trigger alerts for redo
+  this._triggerTurboAlerts(path, valueObj.value, oldValue);
 
-    this._log("%cOmniTurbo[redo] : Redo completed successfully","background:#2ed573");
-    return true;
-  };
+  this._log("%cOmniTurbo[redo] : Redo completed successfully","background:#2ed573");
+  return true;
+};
 
 
 
