@@ -69,6 +69,53 @@ interface BatchOperation {
   options?: any;
 }
 
+export interface SetOptions {
+  /**
+   * If true, the value will be set immediately without waiting for the next tick.
+   * This is useful for synchronous updates but can lead to performance issues if overused.
+   * @default false
+   */
+  immediate?: boolean;
+  /**
+   * If true, the value will have a tracked history of values.
+   * This is useful for undo/redo functionality.
+   * @default true
+   */
+  history?: boolean;
+  /**
+   * If true, the value will be cloned before being set.
+   * This is useful for ensuring immutability and preventing unintended side effects.
+   * @default 'none'
+   * - 'none': No cloning, set the value as-is.
+   * - 'shallow': Perform a shallow clone of the value.
+   * - 'deep': Perform a deep clone of the value.
+   */
+  clone?: 'none' | 'shallow' | 'deep';
+
+  suppressNotifications?: boolean;
+  /**
+   * If true, the value will not be added to the timeline.
+   * This is useful for performance optimization when you don't need to track changes.
+   * @default false
+   */
+  suppressTimeline?: boolean;
+  /**
+   * If true, the value must be an object.
+   * Then the set method will parse the object into the store so its children will be accessible
+   * using dot notation.
+   * If false, the value will be set as-is "atomically" without parsing.
+   * Atomic object's children are not accessible using dot notation. you can only retrieve the object as a whole.
+   * @default null|false
+   */
+  asObject?: boolean;
+}
+
+
+
+
+
+
+
 // ==========================================
 // 🚀 HYPER-OPTIMIZED UTILITIES
 // ==========================================
@@ -278,47 +325,58 @@ class OmniTurbo {
   /**
    * Sets a value at the specified path in the store with optimized performance modes.
    *
+   * If the `asObject` option is provided and true, the value must be a plain object.
+   * In this case, all properties of the object will be flattened into dot-notation paths
+   * under the given path, just like `setObj` or `batch(object, path)`.
+   * If `asObject` is not set or false, the value is set atomically at the given path.
+   *
    * @param path - The dot-notation path where the value should be stored
    * @param value - The value to set at the specified path
    * @param options - Configuration options for the set operation
    * @param options.immediate - When true, bypasses batch mode and executes immediately
+   * @param options.history - When true, enables history tracking for this value
+   * @param options.clone - Controls cloning of the value ('none', 'shallow', 'deep')
+   * @param options.suppressNotifications - When true, suppresses notifications for this set
+   * @param options.suppressTimeline - When true, suppresses timeline logging for this set
+   * @param options.asObject - When true, value must be a plain object and will be flattened into dot-notation paths under the given path
    *
-   * @returns `true` if the value was set or queued successfully, `false` if the value unchanged in quick mode
+   * @returns `true` if the value was set or queued successfully, `false` if the value was unchanged in quick mode
    *
    * @remarks
    * This method operates in different modes for optimal performance:
    * - **Quick Mode**: Uses direct Map operations with zero-overhead notifications
    * - **Batch Mode**: Queues operations for bulk processing unless `immediate` option is set
    * - **Regular Mode**: Falls back to internal set method with full feature support
+   * - **Object Mode**: If `asObject` is true, flattens the object and sets all properties as dot-notation paths
    *
    * In quick mode, the method performs early exit optimization when the new value
    * equals the existing value. Benchmark tracking is automatically enabled when
    * `benchmarkMode` is active.
    *
    * @example
-   * ```typescript
    * // Set a value in quick mode
    * store.set('user.name', 'John Doe');
    *
    * // Set with immediate execution (bypasses batch mode)
    * store.set('user.email', 'john@example.com', { immediate: true });
-   * ```
+   *
+   * // Set an object and flatten its properties under 'user'
+   * store.set('user', { name: 'Alice', age: 30 }, { asObject: true });
+   * // Equivalent to:
+   * // user.name = 'Alice'
+   * // user.age = 30
    */
-  set = (path: string, value: any, options: any = {}): boolean => {
+  set = (path: string, value: any, options: SetOptions = {}): boolean => {
+    // NEW: If asObject is true, delegate to setObj
+    if (options.asObject) {
+      if (!value || typeof value !== 'object' || Array.isArray(value)) {
+        throw new Error('set with asObject:true expects a plain object');
+      }
+      this.setObj(value, path);
+      return true;
+    }
 
-
-    // if(options.explode === true && typeof value === 'object' && value !== null && !Array.isArray(value)) {
-    //   // ✅ Explode object into multiple paths
-    //   var flat = flattenObjectSimple(value);
-    //   for (const [key, val] of Object.entries(flat)) {
-
-    //   }
-    //   const explodedPaths = Object.entries(value).map(([key, val]) => `${path}.${key}`);
-    //   this._log("explodedPaths:   ", explodedPaths);
-
-    // }
-
-    // ✅ NUCLEAR: Direct Map set for Quick mode
+    // ...existing code...
     if (this.quickMode && !this.batchMode) {
       if (this.benchmarkMode) this.opCount++; // ✅ Track benchmarks
 
@@ -454,7 +512,7 @@ class OmniTurbo {
       
       // ✨ ONLY check for object mode if explicitly requested
       if (options.asObject) {
-        console.log("OmniTurbo.get() - Object mode requested, building object from fast store");
+        // console.log("OmniTurbo.get() - Object mode requested, building object from fast store");
         return this._buildObjectFromFastStore(path, options);
       }
       
@@ -1226,6 +1284,11 @@ class OmniTurbo {
 
   });
 
+
+  /**
+   * 🔄 CLEAR ALL DATA - RESET EVERYTHING
+   * Completely clears all data, subscriptions, alerts, and waiters.
+   */
   clear = (): void => {
     this.store.clear();
     this.fastStore.clear(); 
@@ -1236,6 +1299,12 @@ class OmniTurbo {
     this.batchQueue = [];
   };
 
+
+  /**
+   * 🔄 CHECK IF PATH EXISTS
+   * 
+   * Returns true if the path exists in the store, false otherwise.
+   */
   exists = (path: string): boolean => {
     if (this.quickMode) {
       return this.fastStore.has(path);
@@ -1243,24 +1312,49 @@ class OmniTurbo {
     return this.store.has(path) && this.store.get(path)!.value !== undefined;
   };
 
-  delete = (path: string): boolean => {
-    const existed = this.store.has(path) || this.fastStore.has(path);
 
-    if (existed) {
+  /**
+   * 🔄 DELETE PATH AND ALL CHILDREN
+   * 
+   * Deletes the specified path and all its child paths (descendants).
+   * @param path - The path to delete
+   * @return true if the path existed and was deleted, false otherwise.
+   */
+  delete = (path: string): boolean => {
+    let existed = false;
+
+    // Delete the exact path
+    if (this.store.has(path) || this.fastStore.has(path)) {
+      existed = true;
       this.store.delete(path);
       this.fastStore.delete(path);
 
-
-
       this._addToTimeline(path, this.get(path), undefined, 'deleted');
 
-      // ✅ FIXED: Use appropriate notification method
       if (this.quickMode) {
         this._nuclearNotify(path, undefined);
       } else {
         this._adaptiveNotify(path, undefined);
       }
     }
+
+    // Delete all child paths (descendants)
+    const prefixWithDot = path + '.';
+    // Collect keys to delete to avoid mutating during iteration
+    const childKeys = Array.from(this.store.keys()).filter(k => k.startsWith(prefixWithDot));
+    for (const childKey of childKeys) {
+      this.store.delete(childKey);
+      this.fastStore.delete(childKey);
+
+      this._addToTimeline(childKey, this.get(childKey), undefined, 'deleted');
+      if (this.quickMode) {
+        this._nuclearNotify(childKey, undefined);
+      } else {
+        this._adaptiveNotify(childKey, undefined);
+      }
+      existed = true;
+    }
+
     return existed;
   };
 
@@ -2045,7 +2139,19 @@ class OmniTurbo {
 //  ####### ######   #####  #######  #####     #       #     # #######  #####  ####### #     #  #####     #    #     #  #####   #####     #    ### ####### #     #
 
 
-
+  /**
+   * Sets all properties of an object as dot-notation paths in the store.
+   * Alias for batch(object).
+   * 
+   * @param obj - The object to flatten and set
+   * @param pathPrefix - Optional prefix for all keys
+   */
+  setObj = (obj: Record<string, any>, pathPrefix?: string): void => {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
+      throw new Error('setObj expects a plain object');
+    }
+    this.batch(obj, pathPrefix);
+  };
 
 
   /**
