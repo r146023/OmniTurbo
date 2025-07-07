@@ -372,6 +372,10 @@ class OmniTurbo {
       if (!value || typeof value !== 'object' || Array.isArray(value)) {
         throw new Error('set with asObject:true expects a plain object');
       }
+      if (Object.keys(value).length === 0) {
+        // Explicitly store empty object
+        return this._setInternal(path, {}, options);
+      }
       this.setObj(value, path);
       return true;
     }
@@ -440,10 +444,8 @@ class OmniTurbo {
       for (const parentPath of parents) {
         const parentEntry = this.store.get(parentPath);
         if (parentEntry?.subs?.size) {
-          // ✅ FIXED: Use cached value, no recursive calls
-          const parentValue = parentEntry.value;
-
-          // ✅ Direct notify, no recursion
+          // FIX: Use getObj to reconstruct the parent value
+          const parentValue = this.getObj(parentPath) ?? parentEntry.value;
           for (const sub of parentEntry.subs.values()) {
             sub.fn(parentPath, parentValue);
           }
@@ -473,10 +475,10 @@ class OmniTurbo {
     // ✅ Full mode: Use optimized parent notifications
     this._turboNotify(path, value);
   };
+
   /**
    * ⚡ TURBO NOTIFICATION - MINIMAL OVERHEAD
    */
-
   private _turboNotify = (path: string, value: any, oldValue?: any, skipParents = false): void => {
     // ✅ Direct notification - no extra lookups
     const entry = this.store.get(path);
@@ -498,8 +500,11 @@ class OmniTurbo {
       for (const parentPath of parents) {
         const parentEntry = this.store.get(parentPath);
         if (parentEntry?.subs?.size) {
-          // ✅ FIXED: Use cached value, no this.get() call
-          this._turboNotify(parentPath, parentEntry.value, true);
+          // FIX: Use getObj to reconstruct the parent value
+          const parentValue = this.getObj(parentPath) ?? parentEntry.value;
+          for (const sub of parentEntry.subs.values()) {
+            sub.fn(parentPath, parentValue);
+          }
         }
       }
     }
@@ -759,47 +764,37 @@ class OmniTurbo {
 
   /**
    * 🔥 ORIGINAL BATCH OPERATIONS (Function Mode)
+   * Now triggers notifications and alerts for every operation in order,
+   * so all intermediate changes are observed (not just the final value).
    */
   private _batchOperations = (operations: () => void): void => {
     const wasBatchMode = this.batchMode;
     this.batchMode = true;
     this.batchQueue = [];
 
+    // Collect all operations in the batch queue
     operations();
 
-    if (this.quickMode) {
-      // ✅ NUCLEAR: Direct updates to Quick store
-      const affectedPaths = new Set<string>();
+    // For each operation in order, apply and collect old/new values
+    const notifications: Array<{ path: string, oldValue: any, newValue: any }> = [];
 
-      for (const { path, value } of this.batchQueue) {
-        const oldValue = this.fastStore.get(path);
-        if (oldValue !== value) {
-          this.fastStore.set(path, value);
-          affectedPaths.add(path);
-        }
+    for (const { path, value, options } of this.batchQueue) {
+      const valueObj = this.store.get(path);
+      const oldValue = valueObj ? valueObj.value : undefined;
+      if (this._setInternal(path, value, { ...options, suppressNotifications: true })) {
+        const newValueObj = this.store.get(path);
+        notifications.push({ path, oldValue, newValue: newValueObj ? newValueObj.value : value });
       }
+    }
 
-      // ✅ FIXED: Use nuclear notification with correct values
-      for (const path of affectedPaths) {
-        this._nuclearNotify(path, this.fastStore.get(path));
+    // Now notify and alert for each operation in order
+    for (const { path, oldValue, newValue } of notifications) {
+      if (this.quickMode) {
+        this._nuclearNotify(path, newValue, oldValue);
+      } else {
+        this._adaptiveNotify(path, newValue, oldValue);
       }
-    } else {
-      // Regular batch processing
-      const affectedPaths = new Set<string>();
-
-      for (const { path, value, options } of this.batchQueue) {
-        if (this._setInternal(path, value, { ...options, suppressNotifications: true })) {
-          affectedPaths.add(path);
-        }
-      }
-
-      // ✅ FIXED: Use cached values, not this.get()
-      for (const path of affectedPaths) {
-        const valueObj = this.store.get(path);
-        if (valueObj) {
-          this._adaptiveNotify(path, valueObj.value);
-        }
-      }
+      this._triggerTurboAlerts(path, newValue, oldValue);
     }
 
     this.batchMode = wasBatchMode;
@@ -824,39 +819,26 @@ class OmniTurbo {
       this.batchQueue.push({ path: fullPath, value, options: {} });
     }
 
-    if (this.quickMode) {
-      // ✅ NUCLEAR: Direct updates to Quick store
-      const affectedPaths = new Set<string>();
+    // For each operation in order, apply and collect old/new values
+    const notifications: Array<{ path: string, oldValue: any, newValue: any }> = [];
 
-      for (const { path, value } of this.batchQueue) {
-        const oldValue = this.fastStore.get(path);
-        if (oldValue !== value) {
-          this.fastStore.set(path, value);
-          affectedPaths.add(path);
-        }
+    for (const { path, value, options } of this.batchQueue) {
+      const valueObj = this.store.get(path);
+      const oldValue = valueObj ? valueObj.value : undefined;
+      if (this._setInternal(path, value, { ...options, suppressNotifications: true })) {
+        const newValueObj = this.store.get(path);
+        notifications.push({ path, oldValue, newValue: newValueObj ? newValueObj.value : value });
       }
+    }
 
-      // ✅ Use nuclear notification with correct values
-      for (const path of affectedPaths) {
-        this._nuclearNotify(path, this.fastStore.get(path));
+    // Now notify and alert for each operation in order
+    for (const { path, oldValue, newValue } of notifications) {
+      if (this.quickMode) {
+        this._nuclearNotify(path, newValue, oldValue);
+      } else {
+        this._adaptiveNotify(path, newValue, oldValue);
       }
-    } else {
-      // Regular batch processing
-      const affectedPaths = new Set<string>();
-
-      for (const { path, value, options } of this.batchQueue) {
-        if (this._setInternal(path, value, { ...options, suppressNotifications: true })) {
-          affectedPaths.add(path);
-        }
-      }
-
-      // ✅ Use cached values for notifications
-      for (const path of affectedPaths) {
-        const valueObj = this.store.get(path);
-        if (valueObj) {
-          this._adaptiveNotify(path, valueObj.value);
-        }
-      }
+      this._triggerTurboAlerts(path, newValue, oldValue);
     }
 
     this.batchMode = wasBatchMode;
@@ -1230,27 +1212,144 @@ class OmniTurbo {
   // ==========================================
   // 🎯 CONVENIENCE METHODS - TURBO CHARGED
   // ==========================================
-
+  /**
+   * Toggles the boolean value at the specified path.
+   *
+   * If the value is `true`, it will become `false`. If the value is `false`, it will become `true`.
+   * If the value is `undefined`, it will be treated as `false` and toggled to `true`.
+   * If the value is a number or string, it will be coerced to boolean and toggled.
+   * Throws an error if the value is an object, array, or function.
+   *
+   * @param path - The dot-notation path to toggle
+   * @returns The new boolean value after toggling
+   * @throws {Error} If the value at the path is not a primitive (boolean, number, string, or undefined)
+   *
+   * @example
+   * omni.set('flag', true);
+   * omni.toggle('flag'); // false
+   * omni.toggle('flag'); // true
+   *
+   * omni.toggle('newFlag'); // true (undefined treated as false)
+   *
+   * omni.set('num', 0);
+   * omni.toggle('num'); // true
+   *
+   * omni.set('obj', { a: 1 });
+   * omni.toggle('obj'); // throws Error
+   */
   toggle = (path: string): boolean => {
     const current = this.get(path);
+    if (
+      current !== undefined &&
+      typeof current !== 'boolean' &&
+      typeof current !== 'number' &&
+      typeof current !== 'string'
+    ) {
+      throw new Error(`Cannot toggle non-primitive value at path: ${path}`);
+    }
     const newValue = !current;
     this.set(path, newValue);
     return newValue;
   };
 
+  /**
+   * Increments the numeric value at the specified path by a given amount.
+   *
+   * If the value is `undefined`, it is treated as `0` and incremented by the amount.
+   * Throws an error if the value is not a number or undefined.
+   *
+   * @param path - The dot-notation path to increment
+   * @param amount - The amount to increment by (default: 1)
+   * @returns The new numeric value after incrementing
+   * @throws {Error} If the value at the path is not a number or undefined
+   *
+   * @example
+   * omni.set('count', 5);
+   * omni.increment('count'); // 6
+   * omni.increment('count', 4); // 10
+   *
+   * omni.increment('newCount'); // 1 (undefined treated as 0)
+   *
+   * omni.set('flag', true);
+   * omni.increment('flag'); // throws Error
+   */
   increment = (path: string, amount: number = 1): number => {
-    const current = this.get(path) || 0;
+    const current = this.get(path);
+    if (current === undefined) {
+      this.set(path, amount);
+      return amount;
+    }
+    if (typeof current !== 'number') {
+      throw new Error(`Cannot increment non-number at path: ${path}`);
+    }
     const newValue = current + amount;
     this.set(path, newValue);
     return newValue;
   };
 
+  /**
+   * Decrements the numeric value at the specified path by a given amount.
+   *
+   * If the value is `undefined`, it is treated as `0` and decremented by the amount.
+   * Throws an error if the value is not a number or undefined.
+   *
+   * @param path - The dot-notation path to decrement
+   * @param amount - The amount to decrement by (default: 1)
+   * @returns The new numeric value after decrementing
+   * @throws {Error} If the value at the path is not a number or undefined
+   *
+   * @example
+   * omni.set('count', 10);
+   * omni.decrement('count'); // 9
+   * omni.decrement('count', 4); // 5
+   *
+   * omni.decrement('newCount'); // -1 (undefined treated as 0)
+   *
+   * omni.set('flag', false);
+   * omni.decrement('flag'); // throws Error
+   */
   decrement = (path: string, amount: number = 1): number => {
-    return this.increment(path, -amount);
+    const current = this.get(path);
+    if (current === undefined) {
+      this.set(path, -amount);
+      return -amount;
+    }
+    if (typeof current !== 'number') {
+      throw new Error(`Cannot decrement non-number at path: ${path}`);
+    }
+    const newValue = current - amount;
+    this.set(path, newValue);
+    return newValue;
   };
 
+  /**
+   * Pushes one or more items onto the end of the array at the specified path.
+   *
+   * If the value is `undefined`, it is treated as an empty array and the items are pushed.
+   * Throws an error if the value at the path is not an array or undefined.
+   *
+   * @param path - The dot-notation path to the array
+   * @param items - The items to push onto the array
+   * @returns The new length of the array after pushing
+   * @throws {Error} If the value at the path is not an array or undefined
+   *
+   * @example
+   * omni.set('arr', [1, 2]);
+   * omni.push('arr', 3); // 3
+   * omni.push('arr', 4, 5); // 5
+   *
+   * omni.push('newArr', 'a'); // 1 (undefined treated as [])
+   *
+   * omni.set('str', 'not an array');
+   * omni.push('str', 1); // throws Error
+   */
   push = (path: string, ...items: any[]): number => {
-    const current = this.get(path) || [];
+    const current = this.get(path);
+    if (current === undefined) {
+      const newArray = [...items];
+      this.set(path, newArray);
+      return newArray.length;
+    }
     if (!Array.isArray(current)) {
       throw new Error(`Cannot push to non-array at path: ${path}`);
     }
@@ -1258,6 +1357,149 @@ class OmniTurbo {
     this.set(path, newArray);
     return newArray.length;
   };
+
+  /**
+   * Removes the last element from the array at the specified path and returns it.
+   * Throws an error if the value at the path is not an array.
+   *
+   * @param path - The dot-notation path to the array
+   * @returns The removed element, or undefined if the array is empty
+   * @throws {Error} If the value at the path is not an array
+   *
+   * @example
+   * omni.set('arr', [1, 2, 3]);
+   * omni.pop('arr'); // 3
+   * omni.get('arr'); // [1, 2]
+   */
+  pop = (path: string): any => {
+    const current = this.get(path);
+    if (!Array.isArray(current)) {
+      throw new Error(`Cannot pop from non-array at path: ${path}`);
+    }
+    const newArray = [...current];
+    const popped = newArray.pop();
+    this.set(path, newArray);
+    return popped;
+  };
+
+  /**
+   * Removes the first element from the array at the specified path and returns it.
+   * Throws an error if the value at the path is not an array.
+   *
+   * @param path - The dot-notation path to the array
+   * @returns The removed element, or undefined if the array is empty
+   * @throws {Error} If the value at the path is not an array
+   *
+   * @example
+   * omni.set('arr', [1, 2, 3]);
+   * omni.shift('arr'); // 1
+   * omni.get('arr'); // [2, 3]
+   */
+  shift = (path: string): any => {
+    const current = this.get(path);
+    if (!Array.isArray(current)) {
+      throw new Error(`Cannot shift from non-array at path: ${path}`);
+    }
+    const newArray = [...current];
+    const shifted = newArray.shift();
+    this.set(path, newArray);
+    return shifted;
+  };
+
+  /**
+   * Adds one or more elements to the beginning of the array at the specified path.
+   * Throws an error if the value at the path is not an array or undefined.
+   *
+   * @param path - The dot-notation path to the array
+   * @param items - The items to add to the beginning of the array
+   * @returns The new length of the array after unshifting
+   * @throws {Error} If the value at the path is not an array or undefined
+   *
+   * @example
+   * omni.set('arr', [2, 3]);
+   * omni.unshift('arr', 1); // 3
+   * omni.get('arr'); // [1, 2, 3]
+   *
+   * omni.unshift('newArr', 'a'); // 1 (undefined treated as [])
+   */
+  unshift = (path: string, ...items: any[]): number => {
+    const current = this.get(path);
+    if (current === undefined) {
+      const newArray = [...items];
+      this.set(path, newArray);
+      return newArray.length;
+    }
+    if (!Array.isArray(current)) {
+      throw new Error(`Cannot unshift to non-array at path: ${path}`);
+    }
+    const newArray = [...items, ...current];
+    this.set(path, newArray);
+    return newArray.length;
+  };
+
+  /**
+   * Changes the contents of the array at the specified path by removing or replacing existing elements and/or adding new elements in place.
+   * Throws an error if the value at the path is not an array.
+   *
+   * @param path - The dot-notation path to the array
+   * @param start - The index at which to start changing the array
+   * @param deleteCount - The number of elements to remove
+   * @param items - The elements to add to the array, beginning at start
+   * @returns An array containing the deleted elements
+   * @throws {Error} If the value at the path is not an array
+   *
+   * @example
+   * omni.set('arr', [1, 2, 3, 4]);
+   * omni.splice('arr', 1, 2, 'a', 'b'); // [2, 3]
+   * omni.get('arr'); // [1, 'a', 'b', 4]
+   */
+  splice = (path: string, start: number, deleteCount?: number, ...items: any[]): any[] => {
+    const current = this.get(path);
+    if (!Array.isArray(current)) {
+      throw new Error(`Cannot splice non-array at path: ${path}`);
+    }
+    const newArray = [...current];
+    const removed = newArray.splice(start, deleteCount ?? (newArray.length - start), ...items);
+    this.set(path, newArray);
+    return removed;
+  };
+
+  /**
+   * Returns the type of the value at the specified path.
+   *
+   * The result will be one of:
+   * - 'undefined' (if the path does not exist)
+   * - 'null'
+   * - 'array'
+   * - 'object'
+   * - 'string'
+   * - 'number'
+   * - 'boolean'
+   * - 'function'
+   * - 'symbol'
+   * - 'bigint'
+   *
+   * @param path - The dot-notation path to check
+   * @returns The type of the value at the path as a string
+   *
+   * @example
+   * omni.set('foo', 123);
+   * omni.typeOf('foo'); // 'number'
+   * omni.set('bar', [1,2,3]);
+   * omni.typeOf('bar'); // 'array'
+   * omni.set('baz', null);
+   * omni.typeOf('baz'); // 'null'
+   * omni.typeOf('missing'); // 'undefined'
+   */
+  typeOf = (path: string): string => {
+    const value = this.get(path);
+    if (value === undefined) return 'undefined';
+    if (value === null) return 'null';
+    if (Array.isArray(value)) return 'array';
+    return typeof value;
+  };
+
+
 
   // ==========================================
   // 🔄 ASYNC COORDINATION
@@ -1332,35 +1574,40 @@ class OmniTurbo {
   delete = (path: string): boolean => {
     let existed = false;
 
-    // Delete the exact path
+    // Notify subscribers and alerts BEFORE deleting the path
     if (this.store.has(path) || this.fastStore.has(path)) {
       existed = true;
+
+      const oldValue = this.get(path);
+      this._addToTimeline(path, oldValue, undefined, 'deleted');
+      if (this.quickMode) {
+        this._nuclearNotify(path, undefined, oldValue);
+      } else {
+        this._adaptiveNotify(path, undefined, oldValue);
+      }
+      // 🔥 Trigger alerts for the deleted path
+      this._triggerTurboAlerts(path, undefined, oldValue);
+
       this.store.delete(path);
       this.fastStore.delete(path);
-
-      this._addToTimeline(path, this.get(path), undefined, 'deleted');
-
-      if (this.quickMode) {
-        this._nuclearNotify(path, undefined);
-      } else {
-        this._adaptiveNotify(path, undefined);
-      }
     }
 
     // Delete all child paths (descendants)
     const prefixWithDot = path + '.';
-    // Collect keys to delete to avoid mutating during iteration
     const childKeys = Array.from(this.store.keys()).filter(k => k.startsWith(prefixWithDot));
     for (const childKey of childKeys) {
+      const oldValue = this.get(childKey);
+      this._addToTimeline(childKey, oldValue, undefined, 'deleted');
+      if (this.quickMode) {
+        this._nuclearNotify(childKey, undefined, oldValue);
+      } else {
+        this._adaptiveNotify(childKey, undefined, oldValue);
+      }
+      // 🔥 Trigger alerts for the deleted child path
+      this._triggerTurboAlerts(childKey, undefined, oldValue);
+
       this.store.delete(childKey);
       this.fastStore.delete(childKey);
-
-      this._addToTimeline(childKey, this.get(childKey), undefined, 'deleted');
-      if (this.quickMode) {
-        this._nuclearNotify(childKey, undefined);
-      } else {
-        this._adaptiveNotify(childKey, undefined);
-      }
       existed = true;
     }
 
