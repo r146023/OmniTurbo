@@ -367,13 +367,24 @@ class OmniTurbo {
    * // user.age = 30
    */
   set = (path: string, value: any, options: SetOptions = {}): boolean => {
-    // NEW: If asObject is true, delegate to setObj
+    // If asObject is true, delegate to setObj
     if (options.asObject) {
       if (!value || typeof value !== 'object' || Array.isArray(value)) {
         throw new Error('set with asObject:true expects a plain object');
       }
       this.setObj(value, path);
       return true;
+    }
+
+    // NEW: If overwriting with atomic, delete all children first
+    if (isPrimitive(value) || Array.isArray(value)) {
+      // Delete all child paths before setting atomic value
+      const prefixWithDot = path + '.';
+      const childKeys = Array.from(this.store.keys()).filter(k => k.startsWith(prefixWithDot));
+      for (const childKey of childKeys) {
+        this.store.delete(childKey);
+        this.fastStore.delete(childKey);
+      }
     }
 
     // ...existing code...
@@ -396,16 +407,14 @@ class OmniTurbo {
       return true;
     }
 
-    // ✅ Benchmark tracking for regular mode
+    // ...rest of set method...
     if (this.benchmarkMode) this.opCount++;
 
-    // Batch mode
     if (this.batchMode && !options.immediate) {
       this.batchQueue.push({ path, value, options });
       return true;
     }
 
-    // Regular mode with optimized notifications
     return this._setInternal(path, value, options);
   };
 
