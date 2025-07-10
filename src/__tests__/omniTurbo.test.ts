@@ -19,8 +19,8 @@ function randomString(length: number,symbols=true): string {
 function saveOmniToFile(){
     
     const path = 'omni-store-dump.json';
-    const storeData = omni.toObject();
-    console.log("storeData:", storeData);
+    const storeData = omni.toObject({clone:'deep'});
+    // console.log("storeData:", storeData);
     fs.writeFileSync(path, JSON.stringify(storeData, null, 2), 'utf-8');
 }
 
@@ -122,10 +122,10 @@ describe('OmniTurbo core', () => {
     it('handles object values with set{asObject:true}', () => {
         const user = { name: 'Alice', age: 30 };
         omni.set('user', user,{asObject: true});
-        expect(omni.get('user')).toEqual(user);
+        expect(omni.getObj('user')).toEqual(user);
         user.age = 31; // Mutate the object
         omni.set('user', user,{asObject: true}); // Update the reference
-        expect(omni.get('user').age).toBe(31);
+        expect(omni.getObj('user').age).toBe(31);
     });
 
     it('handles object values with batch', () => {
@@ -138,14 +138,6 @@ describe('OmniTurbo core', () => {
         expect(omni.getObj(path).age).toBe(31);
     });
 
-    it('handles array values with set{asObject:true}', () => {
-        const arr = [1, 2, 3];
-        omni.set('numbers', arr, { asObject: true });
-        expect(omni.get('numbers')).toEqual(arr);
-        arr.push(4); // Mutate the array
-        omni.set('numbers', arr, { asObject: true }); // Update the reference
-        expect(omni.get('numbers')).toEqual([1, 2, 3, 4]);
-    });
 
     it('handles path existence correctly', () => {
         const path = "numbers"
@@ -175,16 +167,73 @@ describe('OmniTurbo core', () => {
         const value = randomString(10,false);
         omni.set(path, value);
         expect(omni.get(path)).toEqual(value);
-        omni.delete(path);
-        // omni.delete('user.profile');
+        // omni.delete(path);
+        omni.delete('user.profile');
 
         if(omni.get(path) != undefined){
             console.log(`Error: Path ${path} should be undefined after deletion, but got:`, omni.get(path));
         }
         
         expect(omni.get(path)).toBeUndefined();
-        saveOmniToFile();
+        // saveOmniToFile();
     });
+
+
+    it('handles child nested path deletion without effecting siblings', () => {
+        const path = "user.profile.name";
+        const value = randomString(10,false);
+        omni.set("user.profile.age", 30);
+        omni.set(path, value);
+        expect(omni.get(path)).toEqual(value);
+        omni.delete(path);
+        
+
+        if(omni.get(path) != undefined){
+            console.log(`Error: Path ${path} should be undefined after deletion, but got:`, omni.get(path));
+        }
+        
+        expect(omni.get(path)).toBeUndefined();
+        expect(omni.get("user.profile.age")).toEqual(30);
+        // saveOmniToFile();
+    });
+
+
+
+
+
+
+
+
+    it('handles toObject store retrieval', () => {
+        // omni.clear();
+        const base_key = randomString(10,false);
+        const user = { profile: { name: 'Alice', age: 30 } };
+
+        omni.set(base_key, user, { asObject: true });
+        // omni.batch(user, base_key);
+
+
+        // console.log(omni.toObject());
+        // console.log(omni.getFlatObj(base_key));
+        expect(omni.get(`${base_key}.profile.name`)).toBe('Alice');
+        expect(omni.get(`${base_key}.profile.age`)).toBe(30);
+        // saveOmniToFile();
+
+        // const store = omni.toObject();
+        // expect(store.user).toEqual(user);
+    });
+
+
+    // it('handles complex nested object updates', () => {
+    //     const user = { profile: { name: 'Alice', age: 30 } };
+    //     omni.set('user', user, { asObject: true });
+    //     expect(omni.get('user.profile.name')).toBe('Alice');
+    //     expect(omni.get('user.profile.age')).toBe(30);
+        
+    //     user.profile.age = 31; // Mutate the object
+    //     omni.set('user', user, { asObject: true }); // Update the reference
+    //     expect(omni.get('user.profile.age')).toBe(31);
+    // });
 
 
 

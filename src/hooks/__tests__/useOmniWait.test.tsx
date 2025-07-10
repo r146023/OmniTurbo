@@ -123,10 +123,10 @@ describe('useOmniWait', () => {
 
     it('handles nested object values', async () => {
         act(() => {
-        omni.set('user.name', 'Alice');
-        omni.set('user.age', 30);
+            omni.set('useOmniWait.user.name', 'Alice');
+            omni.set('useOmniWait.user.age', 30);
         });
-        render(<WaitComponent paths={['user.name', 'user.age']} />);
+        render(<WaitComponent paths={['useOmniWait.user.name', 'useOmniWait.user.age']} />);
         await waitFor(() =>
         expect(screen.getByTestId('ready').textContent).toBe('true')
         );

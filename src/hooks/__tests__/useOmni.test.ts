@@ -8,16 +8,16 @@ describe('useOmni', () => {
   beforeEach(() => omni.clear());
 
   it('returns the value at the given path', () => {
-    omni.set('user.name', 'Alice');
-    const { result } = renderHook(() => useOmni('user.name'));
+    omni.set('useOmni.user.name', 'Alice');
+    const { result } = renderHook(() => useOmni('useOmni.user.name'));
     expect(result.current).toBe('Alice');
   });
 
   it('updates when the value changes', () => {
-    omni.set('user.name', 'Alice');
-    const { result, rerender } = renderHook(() => useOmni('user.name'));
+    omni.set('useOmni.user.name', 'Alice');
+    const { result, rerender } = renderHook(() => useOmni('useOmni.user.name'));
     act(() => {
-      omni.set('user.name', 'Bob');
+      omni.set('useOmni.user.name', 'Bob');
     });
     rerender();
     expect(result.current).toBe('Bob');

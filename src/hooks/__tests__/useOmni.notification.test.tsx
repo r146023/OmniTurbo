@@ -57,12 +57,12 @@ describe('useOmni notification system', () => {
 
 
   it('rerenders when nested object value changes', () => {
-    omni.set('user.profile.name', 'Alice');
+    omni.set('notif.user.profile.name', 'Alice');
     console.log("key: user.profile.name, value: Alice");
     render(<TestComponent path="user.profile.name" />);
     expect(screen.getByTestId('value').textContent).toBe('Alice');
     act(() => {
-      omni.set('user.profile.name', 'Bob');
+      omni.set('notif.user.profile.name', 'Bob');
       console.log("key: user.profile.name, value: Bob");
     });
     expect(screen.getByTestId('value').textContent).toBe('Bob');
@@ -75,14 +75,14 @@ describe('useOmni notification system', () => {
         name: 'Alice',
         age: 24
     };
-    omni.batch(profile,'user.profile');
+    omni.batch(profile,'notif.user.profile');
     console.log("key: user.profile, value: ", profile);
 
     render(<TestComponent path="user.profile.name" />);
 
     expect(screen.getByTestId('value').textContent).toBe('Alice');
     act(() => {
-      omni.set('user.profile.name', 'Bob');
+      omni.set('notif.user.profile.name', 'Bob');
       console.log("key: user.profile.name, value: Bob");
     });
     expect(screen.getByTestId('value').textContent).toBe('Bob');
@@ -225,7 +225,7 @@ describe('useOmni notification system', () => {
     expect(screen.getByTestId('value').textContent).toBe('[object Object],[object Object]');
   });
 
-  
+
 
 
   // it('handles updates to arrays with nested objects', () => {
