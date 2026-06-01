@@ -6,11 +6,11 @@ import {useOmniState} from "../hooks/useOmni";
 // const omni = cryptadia.omni;
 import { omni } from '../omni/OmniTurbo';
 
+
 /**
  * Live OmniTurbo Data Viewer Component with Dark Theme
  * Now includes Timeline view for tracking all changes chronologically
  */
-
 interface TreeNode {
   key: string;
   fullPath: string;
@@ -924,17 +924,19 @@ export function OmniTurboViewer({
     try {
       // You may want to customize which part of omni you want to show.
       // Here, we show the entire store as a plain object.
-      let raw: any = {};
-      if (typeof (omni as any).toJS === "function") {
-        raw = (omni as any).toJS();
-      } else if ((omni as any).store && typeof (omni as any).store.entries === "function") {
-        // Fallback: reconstruct from Map
-        for (const [key, value] of (omni as any).store.entries()) {
-          raw[key] = value && value.value !== undefined ? value.value : value;
-        }
-      } else {
-        raw = omni;
-      }
+      // let raw: any = {};
+      // if (typeof (omni as any).toJS === "function") {
+      //   raw = (omni as any).toJS();
+      // } else if ((omni as any).store && typeof (omni as any).store.entries === "function") {
+      //   // Fallback: reconstruct from Map
+      //   for (const [key, value] of (omni as any).store.entries()) {
+      //     raw[key] = value && value.value !== undefined ? value.value : value;
+      //   }
+      // } else {
+      //   raw = omni;
+      // }
+      let raw:any = omni.toObject();
+      console.log("raw", raw);
       setJsonString(JSON.stringify(raw, null, 2));
     } catch (e) {
       setJsonString("// Error serializing omni data");
