@@ -1,10 +1,9 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    environment: 'jsdom', // Needed for React and hooks
+    environment: "node",
     globals: true,
-    setupFiles: './vitest.setup.ts', // Optional, for jest-dom matchers
-    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
-  },
+    include: ["tests/**/*.test.ts", "src/**/*.test.ts"]
+  }
 });
