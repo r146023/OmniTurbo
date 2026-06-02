@@ -16,6 +16,7 @@ export class AliasRegistry {
   resolve(path: string): string {
     if (!path.startsWith("@")) return normalizePath(path);
     const [alias, ...rest] = path.split(".");
+    if (!alias) throw new Error(`Invalid Omni path: ${path}`);
     const root = this.aliases.get(alias);
     if (!root) throw new Error(`Unknown Omni alias: ${alias}`);
     return normalizePath([root, ...rest].join("."));
