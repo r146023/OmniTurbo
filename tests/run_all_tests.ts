@@ -1,0 +1,21 @@
+import "./core/path.test";
+import "./core/object-equality.test";
+import "./datatypes/datatypes.test";
+import "./schema/schema.test";
+import "./privacy/privacy.test";
+import "./aliases/aliases.test";
+import "./result/results.test";
+import "./omni/basic-set-get.test";
+import "./omni/schema-validation.test";
+import "./omni/privacy.test";
+import "./omni/subscriptions.test";
+import "./omni/batch.test";
+import "./omni/history-timeline.test";
+import "./omni/utilities.test";
+import "./omni/results-explain.test";
+import "./omni/waiters.test";
+import "./integration/amber-metadata.integration.test";
+import "./regression/no-efficiency-modes.test";
+import { run } from "./_harness";
+
+await run();
