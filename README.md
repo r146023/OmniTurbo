@@ -61,9 +61,11 @@ npm install @r146023/omniturbo
 ## Quick start
 
 ```ts
-import { Omni } from "omniturbo";
+import { Omni } from "@r146023/omniturbo";
 
 const omni = new Omni();
+// Alternatively can import the singleton:
+import { omni } from "@r146023/omniturbo";
 
 const result = omni.set("settings.theme", "dark");
 
