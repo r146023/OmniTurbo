@@ -1,6 +1,6 @@
 {
   "name": "@r146023/omniturbo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "Apache-2.0",
   "description": "A framework-agnostic governed path-state engine with schemas, datatypes, privacy, aliases, history, and subscriptions.",
   "type": "module",

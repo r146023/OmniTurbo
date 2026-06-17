@@ -21,6 +21,24 @@ export interface OmniCoerceContext {
   oldValue?: unknown;
 }
 
+/**
+ * ## OmniValidateContext
+ *
+ * The `OmniValidateContext` interface defines the structure of the context object that is passed to
+ * validator functions in the Omni system. It includes the following properties:
+ * - `path`: A string representing the location in the data structure where the validation is
+ *   occurring (e.g., "user.name").
+ * - `originalValue` (optional): The original value before any coercion or validation is applied.
+ *   This can be useful for validators that need to compare the current value against the original
+ *   value.
+ * - `oldValue` (optional): An alias for `originalValue`, included for backward compatibility. It
+ *   serves the same purpose as `originalValue` and can be used interchangeably in validator
+ *   functions.
+ *
+ * This interface is designed to provide a standardized way to represent the context in which
+ * validation is taking place, allowing validator functions to access relevant information about the
+ * data being validated and its location within the overall data structure.
+ */
 export interface OmniValidateContext {
   path: string;
   originalValue?: unknown;
