@@ -1,97 +1,83 @@
 # Installation
 
-OmniTurbo is currently structured as a local TypeScript package. The exact publish target can be adjusted later, but the source is already laid out like a normal package.
+OmniTurbo is published as the scoped ESM package `@r146023/omniturbo` and supports maintained Node.js releases beginning with Node 22.
 
-## Local repository install
-
-From the OmniTurbo project root:
+## Install from npm
 
 ```bash
-npm install
-npm run typecheck
-npm test
+npm install @r146023/omniturbo
 ```
 
 Then import from the package entrypoint:
 
 ```ts
-import { Omni } from "./src";
+import { Omni } from "@r146023/omniturbo";
 
 const omni = new Omni();
 ```
 
-After publishing:
+The package is native ESM. Downstream applications may use NodeNext/Node16 or bundler-oriented TypeScript resolution as appropriate for their own runtime; OmniTurbo's emitted package is verified directly under native Node ESM and does not require a bundler to repair its imports.
+
+## Install an exact GitHub Release artifact
+
+Each release created by the repository release workflow includes an installable `npm pack` `.tgz` artifact plus `SHA256SUMS`.
+
+A consumer that needs to pin a reviewed release artifact may install that exact `.tgz` rather than relying on GitHub's automatic source archive. The source zip/tarball is not the packaged library because generated `dist/` output is intentionally not committed.
+
+## Local repository development
+
+From the OmniTurbo project root:
 
 ```bash
-npm install omniturbo
+npm ci
+npm run verify
 ```
 
-```ts
-import { Omni } from "omniturbo";
-```
+`npm run verify` runs the repository release contract:
+
+- strict TypeScript checking under NodeNext resolution;
+- the full Vitest suite;
+- production build;
+- `npm pack` into a temporary artifact;
+- fresh installation of that artifact into a temporary consumer;
+- native Node ESM import plus `Omni` set/get smoke;
+- package payload dry run.
+
+`npm audit --audit-level=high` is also required by CI and the release workflow.
 
 ## TypeScript setup
 
-A typical `tsconfig.json` should work:
+OmniTurbo itself is built with `module` and `moduleResolution` set to `NodeNext` so invalid relative ESM specifiers fail at compile time.
+
+Consumers do not need to copy OmniTurbo's exact compiler configuration. For a native Node ESM application, a representative configuration is:
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "skipLibCheck": true
   }
 }
 ```
 
-If you are using Vite, the `Bundler` resolution mode is usually the smoothest option.
+Vite and other bundler-based applications may use `moduleResolution: "Bundler"` if that fits the application. Package correctness does not depend on it.
 
-## Test setup
+## Release process
 
-The test package uses Vitest:
+Repository releases are tag-driven and re-run the complete verification contract before producing the installable artifact. See [`../releasing.md`](../releasing.md) for the governed release procedure.
 
-```bash
-npm test
-```
+## Application integration
 
-The package script should look like:
-
-```json
-{
-  "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "typescript": "^5.0.0",
-    "vitest": "^3.2.6"
-  }
-}
-```
-
-## Recommended repo layout
-
-```txt
-omniturbo/
-  docs/
-  src/
-  tests/
-  package.json
-  tsconfig.json
-```
-
-## Integration into Amber
-
-For Amber, install or copy the package into the codebase, then create a single app-level Omni instance:
+Most applications should deliberately choose the lifetime and ownership of their Omni instance rather than creating unrelated stores accidentally:
 
 ```ts
 // src/state/omni.ts
-import { Omni } from "omniturbo";
+import { Omni } from "@r146023/omniturbo";
 
 export const omni = new Omni();
 ```
 
-Avoid creating many unrelated Omni instances unless you have a deliberate reason. Most Amber systems should share one state graph so schemas, privacy, subscriptions, and debugging tools can see the whole picture.
+A shared application-level instance is useful when schemas, privacy, subscriptions, and debugging tools are intended to observe one state graph. Multiple instances remain valid when architectural isolation is deliberate.
