@@ -1,5 +1,5 @@
-import type { OmniSchema } from "./schema_types";
-import type { OmniWriteToken } from "./privacy_types";
+import type { OmniSchema } from "./schema_types.js";
+import type { OmniWriteToken } from "./privacy_types.js";
 
 export type CloneMode = "none" | "shallow" | "deep";
 export type SubscriberTiming = "PRE" | "POST";

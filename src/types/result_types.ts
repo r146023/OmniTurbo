@@ -1,6 +1,6 @@
-import type { OmniIssue } from "./issue_types";
-import type { OmniSchema } from "./schema_types";
-import type { OmniPrivateSetter } from "./privacy_types";
+import type { OmniIssue } from "./issue_types.js";
+import type { OmniSchema } from "./schema_types.js";
+import type { OmniPrivateSetter } from "./privacy_types.js";
 
 export type OmniAction =
   | "set"

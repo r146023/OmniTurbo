@@ -1,4 +1,4 @@
-import type { OmniIssue } from "./issue_types";
+import type { OmniIssue } from "./issue_types.js";
 
 export const NO_COERCE = "__NO_COERCE__" as const;
 export const OMNI_REJECT = Symbol("OMNI_REJECT");

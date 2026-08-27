@@ -1,4 +1,4 @@
-import type { OmniSchema } from "../types/schema_types";
+import type { OmniSchema } from "../types/schema_types.js";
 
 export function resolveDefault(schema: OmniSchema | undefined): unknown {
   if (!schema || !("default" in schema)) return undefined;

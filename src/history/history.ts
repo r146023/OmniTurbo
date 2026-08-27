@@ -1,4 +1,4 @@
-import type { OmniValueObject } from "../types/store_types";
+import type { OmniValueObject } from "../types/store_types.js";
 
 export function ensureHistory(valueObj: OmniValueObject, oldValue: unknown, limit = 10): void {
   if (!valueObj.history) {

@@ -1,6 +1,6 @@
-import type { OmniDataTypeDefinition } from "../types/datatype_types";
-import { OMNI_REJECT } from "../types/datatype_types";
-import { isPlainObjectValue } from "../core/object";
+import type { OmniDataTypeDefinition } from "../types/datatype_types.js";
+import { OMNI_REJECT } from "../types/datatype_types.js";
+import { isPlainObjectValue } from "../core/object.js";
 
 const numberCoerce = (value: unknown) => {
   if (typeof value === "number") return value;

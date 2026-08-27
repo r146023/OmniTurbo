@@ -1,23 +1,23 @@
-export { Omni, Omni as OmniTurbo } from "./Omni";
-export { default } from "./Omni";
+export { Omni, Omni as OmniTurbo } from "./Omni.js";
+export { default } from "./Omni.js";
 
-export * from "./types/result_types";
-export * from "./types/issue_types";
-export * from "./types/schema_types";
-export * from "./types/datatype_types";
-export * from "./types/privacy_types";
-export * from "./types/store_types";
-export * from "./types/options_types";
+export * from "./types/result_types.js";
+export * from "./types/issue_types.js";
+export * from "./types/schema_types.js";
+export * from "./types/datatype_types.js";
+export * from "./types/privacy_types.js";
+export * from "./types/store_types.js";
+export * from "./types/options_types.js";
 
-export * from "./datatypes/DataTypeRegistry";
-export * from "./schema/SchemaRegistry";
-export * from "./privacy/PrivacyRegistry";
-export * from "./aliases/AliasRegistry";
-
-
+export * from "./datatypes/DataTypeRegistry.js";
+export * from "./schema/SchemaRegistry.js";
+export * from "./privacy/PrivacyRegistry.js";
+export * from "./aliases/AliasRegistry.js";
 
 
-import { Omni } from "./Omni";
+
+
+import { Omni } from "./Omni.js";
 
 declare global {
   // eslint-disable-next-line no-var

@@ -1,5 +1,5 @@
-import type { OmniIssue } from "../types/issue_types";
-import type { OmniAction, OmniResult } from "../types/result_types";
+import type { OmniIssue } from "../types/issue_types.js";
+import type { OmniAction, OmniResult } from "../types/result_types.js";
 
 export function okResult<T = unknown>(params: {
   action: OmniAction;

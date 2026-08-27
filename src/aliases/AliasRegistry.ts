@@ -1,4 +1,4 @@
-import { normalizePath } from "../core/path";
+import { normalizePath } from "../core/path.js";
 
 export class AliasRegistry {
   private aliases = new Map<string, string>();

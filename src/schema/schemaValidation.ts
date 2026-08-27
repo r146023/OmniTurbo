@@ -1,7 +1,7 @@
-import type { DataTypeRegistry } from "../datatypes/DataTypeRegistry";
-import { OMNI_REJECT, NO_COERCE } from "../types/datatype_types";
-import type { OmniIssue } from "../types/issue_types";
-import type { OmniSchema } from "../types/schema_types";
+import type { DataTypeRegistry } from "../datatypes/DataTypeRegistry.js";
+import { OMNI_REJECT, NO_COERCE } from "../types/datatype_types.js";
+import type { OmniIssue } from "../types/issue_types.js";
+import type { OmniSchema } from "../types/schema_types.js";
 
 export interface ValidationPipelineInput {
   path: string;

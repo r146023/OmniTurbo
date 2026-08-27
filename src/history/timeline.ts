@@ -1,4 +1,4 @@
-import type { OmniTimelineAction, TimelineEntry } from "../types/store_types";
+import type { OmniTimelineAction, TimelineEntry } from "../types/store_types.js";
 
 export class Timeline {
   private entries: TimelineEntry[] = [];

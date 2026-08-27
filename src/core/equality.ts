@@ -1,4 +1,4 @@
-import { isPrimitive } from "./object";
+import { isPrimitive } from "./object.js";
 
 /**
  * Performs a fast equality check between two values.

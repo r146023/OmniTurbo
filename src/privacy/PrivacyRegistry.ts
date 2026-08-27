@@ -1,7 +1,7 @@
-import { generateFastId } from "../core/ids";
-import { isChildPath, normalizePath } from "../core/path";
-import type { OmniIssue } from "../types/issue_types";
-import type { PrivacyRule, OmniWriteToken } from "../types/privacy_types";
+import { generateFastId } from "../core/ids.js";
+import { isChildPath, normalizePath } from "../core/path.js";
+import type { OmniIssue } from "../types/issue_types.js";
+import type { PrivacyRule, OmniWriteToken } from "../types/privacy_types.js";
 
 export class PrivacyRegistry {
   private rules = new Map<string, PrivacyRule>();

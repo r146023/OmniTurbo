@@ -1,24 +1,24 @@
-import { AliasRegistry } from "./aliases/AliasRegistry";
-import { batchObject } from "./batch/batch";
-import { buildObjectFromEntries, fastClone, flattenObjectSimple, isPlainObjectValue, isPrimitive } from "./core/object";
-import { normalizePath } from "./core/path";
-import { fastEquals } from "./core/equality";
-import { builtInDataTypes } from "./datatypes/builtins";
-import { DataTypeRegistry } from "./datatypes/DataTypeRegistry";
-import { PrivacyRegistry } from "./privacy/PrivacyRegistry";
-import { createPrivateSetter } from "./privacy/writeTokens";
-import { failResult, mergeResults, okResult } from "./result/resultFactories";
-import { SchemaRegistry } from "./schema/SchemaRegistry";
-import { resolveDefault } from "./schema/schemaDefaults";
-import { runSchemaValidation } from "./schema/schemaValidation";
-import { ensureHistory } from "./history/history";
-import { Timeline } from "./history/timeline";
-import { SubscriptionRegistry } from "./subscriptions/subscriptions";
-import type { OmniIssue } from "./types/issue_types";
-import type { BatchOptions, GetOptions, InternalSetOptions, SetOptions, SubscriberTiming } from "./types/options_types";
-import type { OmniResult } from "./types/result_types";
-import type { OmniSchema } from "./types/schema_types";
-import type { OmniValueObject } from "./types/store_types";
+import { AliasRegistry } from "./aliases/AliasRegistry.js";
+import { batchObject } from "./batch/batch.js";
+import { buildObjectFromEntries, fastClone, flattenObjectSimple, isPlainObjectValue, isPrimitive } from "./core/object.js";
+import { normalizePath } from "./core/path.js";
+import { fastEquals } from "./core/equality.js";
+import { builtInDataTypes } from "./datatypes/builtins.js";
+import { DataTypeRegistry } from "./datatypes/DataTypeRegistry.js";
+import { PrivacyRegistry } from "./privacy/PrivacyRegistry.js";
+import { createPrivateSetter } from "./privacy/writeTokens.js";
+import { failResult, mergeResults, okResult } from "./result/resultFactories.js";
+import { SchemaRegistry } from "./schema/SchemaRegistry.js";
+import { resolveDefault } from "./schema/schemaDefaults.js";
+import { runSchemaValidation } from "./schema/schemaValidation.js";
+import { ensureHistory } from "./history/history.js";
+import { Timeline } from "./history/timeline.js";
+import { SubscriptionRegistry } from "./subscriptions/subscriptions.js";
+import type { OmniIssue } from "./types/issue_types.js";
+import type { BatchOptions, GetOptions, InternalSetOptions, SetOptions, SubscriberTiming } from "./types/options_types.js";
+import type { OmniResult } from "./types/result_types.js";
+import type { OmniSchema } from "./types/schema_types.js";
+import type { OmniValueObject } from "./types/store_types.js";
 
 /**
  * Omni is a path-first state store that can act as either:

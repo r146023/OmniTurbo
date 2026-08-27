@@ -1,4 +1,4 @@
-import type { OmniSubscriber } from "./options_types";
+import type { OmniSubscriber } from "./options_types.js";
 
 export type OmniTimelineAction = "created" | "updated" | "deleted" | "undo" | "redo";
 
