@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Verify tag matches package version
+        shell: bash
+        run: |
+          VERSION="$(node -p "require('./package.json').version")"
+          test "${GITHUB_REF_NAME}" = "v${VERSION}"
+      - name: Install exact dependency graph
+        run: npm ci
+      - name: Audit production/package graph
+        run: npm audit --audit-level=high
+      - name: Verify source, build, and packed consumer
+        run: npm run verify
+      - name: Build release artifact
+        shell: bash
+        run: |
+          mkdir -p release
+          npm pack --pack-destination release
+          sha256sum release/*.tgz > release/SHA256SUMS
+      - name: Create or update GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" release/*.tgz release/SHA256SUMS --clobber
+          else
+            gh release create "${GITHUB_REF_NAME}" release/*.tgz release/SHA256SUMS \
+              --verify-tag \
+              --generate-notes \
+              --title "OmniTurbo ${GITHUB_REF_NAME}"
+          fi
