@@ -1,6 +1,6 @@
-import { generateFastId } from "../core/ids";
-import { getParentPaths, normalizePath } from "../core/path";
-import type { OmniSubscriber, SubscriberTiming } from "../types/options_types";
+import { generateFastId } from "../core/ids.js";
+import { getParentPaths, normalizePath } from "../core/path.js";
+import type { OmniSubscriber, SubscriberTiming } from "../types/options_types.js";
 
 
 /**

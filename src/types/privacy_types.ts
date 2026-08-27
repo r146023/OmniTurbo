@@ -1,5 +1,5 @@
-import type { OmniResult } from "./result_types";
-import type { SetOptions } from "./options_types";
+import type { OmniResult } from "./result_types.js";
+import type { SetOptions } from "./options_types.js";
 
 export interface OmniWriteToken {
   id: string;

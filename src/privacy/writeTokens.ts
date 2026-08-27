@@ -1,7 +1,7 @@
-import { getRelativePath, joinPath } from "../core/path";
-import type { OmniPrivateSetter, OmniWriteToken } from "../types/privacy_types";
-import type { OmniResult } from "../types/result_types";
-import type { SetOptions } from "../types/options_types";
+import { getRelativePath, joinPath } from "../core/path.js";
+import type { OmniPrivateSetter, OmniWriteToken } from "../types/privacy_types.js";
+import type { OmniResult } from "../types/result_types.js";
+import type { SetOptions } from "../types/options_types.js";
 
 export type TokenSetFunction = (path: string, value: unknown, options?: SetOptions) => OmniResult;
 

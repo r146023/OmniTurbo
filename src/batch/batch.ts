@@ -1,5 +1,5 @@
-import { flattenObjectSimple } from "../core/object";
-import type { BatchOptions } from "../types/options_types";
+import { flattenObjectSimple } from "../core/object.js";
+import type { BatchOptions } from "../types/options_types.js";
 
 export type BatchSetFunction = (path: string, value: unknown, options?: Record<string, unknown>) => unknown;
 

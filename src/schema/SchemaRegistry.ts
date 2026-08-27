@@ -1,5 +1,5 @@
-import { getPathParts, normalizePath, wildcardScore, wildcardToRegExp } from "../core/path";
-import type { OmniResolvedSchema, OmniSchema } from "../types/schema_types";
+import { getPathParts, normalizePath, wildcardScore, wildcardToRegExp } from "../core/path.js";
+import type { OmniResolvedSchema, OmniSchema } from "../types/schema_types.js";
 
 interface SchemaEntry {
   pattern: string;

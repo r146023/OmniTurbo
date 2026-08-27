@@ -1,4 +1,4 @@
-import type { OmniCoercer, OmniDataTypeName, OmniValidator } from "./datatype_types";
+import type { OmniCoercer, OmniDataTypeName, OmniValidator } from "./datatype_types.js";
 
 export interface OmniSchema {
   type?: OmniDataTypeName;

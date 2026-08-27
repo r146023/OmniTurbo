@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Package version to release (for example 0.1.2)
+        required: true
+        type: string
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Resolve and verify release identity
+        shell: bash
+        run: |
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            test "${GITHUB_REF}" = "refs/heads/main"
+            test "${{ inputs.version }}" = "${PACKAGE_VERSION}"
+            RELEASE_TAG="v${PACKAGE_VERSION}"
+          else
+            RELEASE_TAG="${GITHUB_REF_NAME}"
+            test "${RELEASE_TAG}" = "v${PACKAGE_VERSION}"
+          fi
+          echo "RELEASE_TAG=${RELEASE_TAG}" >> "${GITHUB_ENV}"
+          echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> "${GITHUB_ENV}"
+      - name: Install exact dependency graph
+        run: npm ci
+      - name: Audit production/package graph
+        run: npm audit --audit-level=high
+      - name: Verify source, build, and packed consumer
+        run: npm run verify
+      - name: Build release artifact
+        shell: bash
+        run: |
+          mkdir -p release
+          npm pack --pack-destination release
+          sha256sum release/*.tgz > release/SHA256SUMS
+      - name: Create or update GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            gh release upload "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS --clobber
+          elif [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS \
+              --target "${GITHUB_SHA}" \
+              --generate-notes \
+              --title "OmniTurbo ${RELEASE_TAG}"
+          else
+            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS \
+              --verify-tag \
+              --generate-notes \
+              --title "OmniTurbo ${RELEASE_TAG}"
+          fi

@@ -1,4 +1,4 @@
-import type { OmniDataTypeDefinition, OmniDataTypeName } from "../types/datatype_types";
+import type { OmniDataTypeDefinition, OmniDataTypeName } from "../types/datatype_types.js";
 
 export class DataTypeRegistry {
   private types = new Map<string, OmniDataTypeDefinition>();
