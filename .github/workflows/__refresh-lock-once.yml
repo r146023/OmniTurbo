@@ -1,0 +1,44 @@
+name: Refresh dependency lock once
+
+on:
+  push:
+    branches:
+      - work/release-hardening-0001
+    paths:
+      - .github/.refresh-lock-once
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: work/release-hardening-0001
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Reconstruct current graph
+        run: npm ci
+      - name: Apply advisory-safe lockfile refresh
+        run: npm audit fix --package-lock-only
+      - name: Prove refreshed graph reconstructs
+        run: npm ci
+      - name: Require clean high-severity audit
+        run: npm audit --audit-level=high
+      - name: Commit lockfile only
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "No lockfile change required"
+          else
+            test "$(git diff --cached --name-only)" = "package-lock.json"
+            git commit -m "Refresh dependency lockfile for security advisories"
+            git push origin HEAD:work/release-hardening-0001
+          fi
