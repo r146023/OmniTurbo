@@ -19,7 +19,7 @@ None.
 
 | ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
 |---|---|---|---|---|---|---|---|
-| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Existing dependency audit gate fails on Node 22/24 | Confirmed | High | U2 | Release qualification; not governance/source correction | No Resolution Proposed | Timing Approved (deferred) |
+| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Original development-tooling audit failure | Confirmed | High | U2 | Historic v0.1.3 tooling; current v0.1.4 successor release qualification | Remediated locally in WU-0003 candidate, **Open pending Owner approval/release** | Owner-authorized WU-0003 Active Work |
 
 ### Backlog / Opportunistic — U3
 

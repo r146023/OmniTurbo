@@ -3,23 +3,23 @@
 **ID:** `ASSISTANT-ISSUE-0002`
 **Origin:** Planning and Development Assistant (discovered during WA 5.7.0 adoption PR verification)
 **Type:** Infrastructure / security-maintenance risk
-**Investigation State:** Confirmed
+**Investigation State:** Confirmed; remediation locally Verified in WU-0003 candidate (unaccepted)
 **Severity:** High (CI reports critical/high dependency advisories; runtime exposure not established)
-**Urgency:** U2 — deferred dependency maintenance; retain release-readiness visibility
-**Blocks:** The **unexcepted full `npm audit --audit-level=high`** remains FAIL for development tooling; ordinary future release readiness still requires its normal security disposition. A strictly version-specific Project Owner-approved `v0.1.3` release exception was executed with full audit visibility and zero production findings, but does not resolve this Issue or authorize future version exceptions.
+**Urgency:** U2 — Owner-authorized bounded WU-0003 remediation, currently in candidate verification
+**Blocks:** The published `v0.1.3` development-tooling graph has historic findings under its Owner-approved one-version exception. The proposed `v0.1.4` WU-0003 candidate resolves those findings with a real **normal full audit PASS (0 findings)**; remaining boundaries are exact GitHub CI, Owner acceptance and controlled successor release. This formal Issue remains Open until its accepted disposition, not merely local candidate checks.
 **Closure State:** Open
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
-**Last Reviewed:** 2026-11-18 — WU-0002 v0.1.3 Owner-approved exception, successful release and residual-risk confirmation
-**Next Review Trigger:** Future separately authorized dependency/toolchain remediation or next versioned release readiness (the v0.1.3-specific exception must not carry forward). No automatic follow-on Work Unit authorized.
-**Affected Versions / Stages:** Pre-existing OmniTurbo development tooling dependency graph (unchanged between released `v0.1.2` and candidate `v0.1.3`, aside from two root package-version fields) and CI; independent of subscriber-isolation source behavior
+**Last Reviewed:** 2026-11-18 — WU-0003 v0.1.4 local Node 22/24 security-remediation candidate qualification
+**Next Review Trigger:** WU-0003 mandatory `I APPROVE` review, followed by accepted source integration and normal successor-release qualification; do not close before actual accepted disposition and evidence.
+**Affected Versions / Stages:** Published historical `v0.1.3` dev-tooling graph remains affected; the unaccepted `v0.1.4` candidate contains a locally verified compatible remediation, with no change to runtime/source behavior.
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
 ## Original Report
 
 While verifying the governance-only WA 5.7.0 adoption candidate, both Node 22 and Node 24 CI jobs failed at `npm audit --audit-level=high` after successful `npm ci`. The next `npm run verify` step was skipped. This failure was not introduced by the governance documents: `package.json`, `package-lock.json`, CI workflow and source are identical to the pre-adoption commit.
 
-## Current Understanding
+## Original Onboarding Understanding (Historical; Superseded by Current Decision Summary)
 
 CI runs `npm ci`, then a full `npm audit --audit-level=high`. The advisory database currently reports **12 vulnerabilities (4 moderate, 6 high, 2 critical)** involving development/build/test tooling such as Vitest/Vite transitive dependencies, `tinypool`, `picomatch`, `source-map-js` and others. Some reported fixes may require a breaking Vitest upgrade. These are **tooling/dependency-graph advisories**, not evidence that OmniTurbo's packaged runtime API has an exploitable vulnerability.
 
@@ -60,7 +60,7 @@ New/current security advisories affecting the existing locked development depend
 
 ### Resolution State
 
-`No Resolution Proposed` — investigation has identified the CI gate, but a safe compatible dependency upgrade is not qualified.
+`Implemented / Locally Verified Candidate` — WU-0003 upgrades Vitest 3.2.6 → 5.1.1 and Rimraf 6.1.3 → 6.1.4, retaining TypeScript 5.9.3, with zero vulnerabilities and full Node 22/24 package verification. **Open until Owner approval and accepted successor-release evidence.**
 
 ### Proposed Resolution
 
@@ -72,7 +72,7 @@ N/A.
 
 ### Resolution Decision Evidence
 
-N/A — no separate Owner authorization yet.
+2026-11-18 Owner exact `I ACCEPT OMNITURBO WU-0003 — REMEDIATE THE NINE CURRENT DEVELOPMENT-TOOLING SECURITY FINDINGS ...` authorizes scoped remedial execution and testing, **not** release publication, formal Issue closure or WU-0003 final acceptance.
 
 ## Timing
 
@@ -101,7 +101,7 @@ After the OmniTurbo subscriber-isolation corrective effort and AVAM's critical-p
 
 ## Implementation / Verification Evidence
 
-None — no dependency patch or CI bypass authorized by this documentation onboarding.
+Original governance onboarding: no dependency patch authorized or applied. Subsequently the Owner authorized WU-0003 on 2026-11-18. Candidate evidence: `docs/project/reviews/work-units/WU-0003-DEVTOOL-SECURITY-REMEDIATION.md`, `docs/project/releases/V0.1.4-CANDIDATE.md`; current direct dev tooling upgrade and exact npm audits PASS with zero, Node 22/24 package verification PASS without disabling or bypassing audits.
 
 ## Related Authorities and Work Units
 
@@ -118,4 +118,4 @@ None — no dependency patch or CI bypass authorized by this documentation onboa
 
 ## Current Decision Summary
 
-**Open / U2 / remediation deferred.** The Project Owner expressly accepted the nine known development-tooling findings (four moderate, three high, **two critical**) only for the single `v0.1.3` GitHub Release. WU-0002 received final `I APPROVE`, its exact version-specific audit exception passed Node 22/24 CI and was integrated in PR #6. The official `v0.1.3` release was generated successfully from `1bead142b2219f320590c0472aee2b3a3af3c766` with **full audit still FAIL** and raw audit JSON attached; production-only audit reports **zero findings**. This Issue remains unresolved. All later versions require fresh applicable qualification and a distinct Owner disposition; no dependency remediation began during WU-0002.
+**Open / U2; remediation verified in the unaccepted WU-0003 v0.1.4 candidate.** The Owner authorized the bounded remediation in WU-0003. A minimal two-direct-dependency update (Vitest 5.1.1, Rimraf 6.1.4; TypeScript 5.9.3 retained) produced **full and production-only npm audit PASS / zero findings**, complete Node 22/24 tests, native packaged consumer, and normal-gate PASS **without exception**. PR #8's exact head additionally passes both GitHub CI jobs with downloaded, independently checked zero-finding audit artifacts. WU-0003 is **Awaiting Review**; no successor version has been merged, tagged or published. The historical published `v0.1.3` and its frozen one-version exception remain unchanged. The formal Issue stays Open until accepted release evidence supports closure.
