@@ -2,7 +2,7 @@
 
 **Project:** OmniTurbo
 **Governing Working Agreement:** Published v5.7.0
-**Work Unit State:** Awaiting Review — locally qualified correction, no Owner acceptance or release
+**Work Unit State:** Closed — Project Owner approved WU-0001 on 2026-11-18; acceptance-dependent closeout recorded below. The correction remains on an unmerged branch; no package release.
 **Date Authorized:** 2026-11-18
 **Authorized Execution Machine:** RamonaFlowers
 **Authoritative Accepted Base:** `main` `ae0787427414206cde394516c2c3658f829d18c4` (WA 5.7.0 adoption); released package `v0.1.2` remains at `baeb6919ec9720a9506053a4acd284a12c842b54`
@@ -121,3 +121,23 @@ If approved, close WU-0001 under WA 5.7.0, reconcile Issue 0001 as supported by 
 **Next planned Work Unit:** A separately authorized OmniTurbo integration/versioned-release step (or other explicit release-gate disposition), followed by an independently authorized AVAM pinned-package update and native-fit requalification. **Not authorized** at this review gate.
 
 No acceptance-dependent governance state has advanced beyond the last Project Owner-accepted position.
+
+## Project Owner acceptance and WU closeout — 2026-11-18
+
+**Project Owner approval evidence:** Immediately after the WU-0001 Awaiting Review delivery, the Project Owner responded with the exact reserved phrase `I APPROVE` on 2026-11-18. This approval accepts **WU-0001 only**, per WA v5.7.0 `WORK_UNIT_STANDARD.md` section 14.
+
+**Final WU state:** **Closed**. The agreed synchronous post-commit subscriber-isolation correction and the documented Node 24 qualification/AVAM native-fit consumer proof are accepted as a bounded development result. The original Awaiting Review section above is preserved as historical decision evidence; this addendum is its acceptance-dependent successor.
+
+**Accepted implementation:** `921c4c9c6f95a6612bade470fbab6a83a797853f`, with review-evidence commit `eaba649db1c7d52cda578c10f837e263068d69e1`, on branch `work/subscriber-isolation-0001` / [PR #5](https://github.com/r146023/OmniTurbo/pull/5).
+
+**Accepted Work Unit Serial:** advance exactly once from **0 to 1** in `docs/project/reviews/INDEX.md` on the correction branch. The initial governance reviews occurred at serial 0; normal cadence does not become due at serial 1 (Governance/Structure due at serial 3, Integrity at serial 9 unless independently event-triggered). This accepted development-state bookkeeping is **not yet present on authoritative `main`**, because PR #5 remains unmerged.
+
+**Issue disposition:** `ASSISTANT-ISSUE-0001` is **Verified / Open**: its approved technical solution is implemented and accepted on the correction branch, but published `v0.1.2` and `main` remain affected until subsequent authorized integration and versioned release. Record the verification evidence without incorrectly claiming the already published package is fixed. `ASSISTANT-ISSUE-0002` remains Open with deferred dependency remediation, as the Owner instructed.
+
+**Verification retained:** local `npm run verify` PASS on RamonaFlowers Node 24.19.0 (138/138 unit tests; typecheck, build, fresh packed-package consumer, package check); original AVAM native-fit desired upstream contract 2/2 PASS against a fresh corrected candidate tarball. GitHub Node 22/24 CI did **not** pass because the unchanged development dependency lockfile fails `npm audit --audit-level=high` (12 reported vulnerabilities), and subsequent CI verification steps are skipped. No Node 22 source/build/package success was independently established.
+
+**Repository/publication boundary:** Owner approval does **not** authorize merging PR #5, modifying `main`, changing package version, retagging `v0.1.2`, distributing a successor release, weakening security checks, applying dependency fixes, or changing AVAM. Any future release, repository integration or AVAM dependency requalification requires its own valid authority and safety checks.
+
+**Documentation/history:** This closeout addendum and the synchronized Issue/Review indexes are the durable acceptance history for the first native WA 5.7.0 Work Unit. No separate approved Development Plan or changelog existed to change; no retrospective Stage or feature history was invented.
+
+**Current next-work state:** **Closed / Awaiting Authorization.** The next recognizable objective is approved-source integration and versioned OmniTurbo qualification/publication for AVAM's use, followed by separately authorized AVAM native-fit requalification. No successor Work Unit was authorized by this `I APPROVE`.
