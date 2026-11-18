@@ -38,7 +38,7 @@
 ## Currently Due
 
 - No cadence review due at serial 0 after the recorded initial baseline. Current authoritative application of this baseline requires integration of PR #4 into `main`.
-- **Current Owner disposition:** `ASSISTANT-ISSUE-0001` (U1) has resolution/timing Approved and is being implemented under Owner-authorized WU-0001 on RamonaFlowers. Accepted Work Unit Serial remains 0 until Owner approval/closeout. `ASSISTANT-ISSUE-0002` (U2) remains Open with remediation deferred; red pre-existing audit is not a blocker to WU-0001 implementation, but release qualification is separate.
+- **Current Owner disposition:** `ASSISTANT-ISSUE-0001` (U1) has resolution/timing Approved; Owner-authorized WU-0001 completed implementation and local qualification and is **Awaiting Review**. Accepted Work Unit Serial remains 0 until Owner approval/closeout. `ASSISTANT-ISSUE-0002` (U2) remains Open with remediation deferred; pre-existing audit failure is separate from WU-0001 but remains a release-qualification consideration.
 
 ## Event-Triggered Requirements
 
@@ -52,4 +52,4 @@
 
 - The `v0.1.2` release and pre-WA project history are preserved as history, not falsely numbered native WA Work Units.
 - The governance records on this branch are not automatically accepted on `main`.
-- Active corrective WU-0001: `work-units/WU-0001-SUBSCRIBER-ISOLATION.md` (Owner-authorized 2026-11-18). Acceptance-dependent state/serial remain unchanged; AVAM implementation and package release have separate gates.
+- Corrective WU-0001: `work-units/WU-0001-SUBSCRIBER-ISOLATION.md` (Owner-authorized 2026-11-18, **Awaiting Review**; PR #5). Acceptance-dependent state/serial remain unchanged; release and AVAM implementation have separate gates.

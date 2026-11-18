@@ -66,7 +66,7 @@ Synchronous post-commit callbacks are invoked without per-subscriber exception i
 
 ### Resolution State
 
-`Resolution Approved` — Project Owner formally approved the bounded subscriber-isolation correction on 2026-11-18; implementation underway in WU-0001.
+`Resolution Approved` — Project Owner approved the bounded subscriber-isolation correction on 2026-11-18; WU-0001 implementation and local verification are complete, now **Awaiting Review**. Formal Issue closeout is acceptance-dependent.
 
 ### Proposed Resolution
 
@@ -128,4 +128,4 @@ None — source work is not yet authorized. No tag, merge, release or AVAM depen
 
 ## Current Decision Summary
 
-Confirmed generic OmniTurbo defect with **resolution and timing approved** by Owner. WU-0001 is Authorized / Active Work on isolated branch, not yet implemented-and-accepted. Issue remains Open; verification and acceptance-dependent closure await Owner review.
+Confirmed generic OmniTurbo defect with **resolution and timing approved** by Owner. WU-0001 implemented and locally verified the correction on isolated branch `work/subscriber-isolation-0001` / PR #5 and is **Awaiting Review**. Issue remains Open / Resolution Approved until Owner `I APPROVE` and subsequent closeout; the immutable released package is unchanged.

@@ -2,7 +2,7 @@
 
 **Project:** OmniTurbo
 **Governing Working Agreement:** Published v5.7.0
-**Work Unit State:** Active Work — correction under execution; no Owner acceptance
+**Work Unit State:** Awaiting Review — locally qualified correction, no Owner acceptance or release
 **Date Authorized:** 2026-11-18
 **Authorized Execution Machine:** RamonaFlowers
 **Authoritative Accepted Base:** `main` `ae0787427414206cde394516c2c3658f829d18c4` (WA 5.7.0 adoption); released package `v0.1.2` remains at `baeb6919ec9720a9506053a4acd284a12c842b54`
@@ -55,4 +55,69 @@ Otherwise stop when correction and qualification are ready for **Awaiting Review
 
 ## Execution and evidence
 
-**In progress.** Implementation and qualification evidence will be added before entering Awaiting Review. This record does not predeclare success.
+**Implementation and qualification are complete to the extent documented below; Awaiting Review, not accepted.**
+
+## Owner review delivery — 2026-11-18
+
+**Outcome:** A synchronous subscriber exception no longer makes an already committed mutation appear to have failed or suppresses other eligible observer callbacks. The fix belongs to OmniTurbo, not AVAM.
+
+**Primary artifact:** [OmniTurbo PR #5](https://github.com/r146023/OmniTurbo/pull/5)
+
+**Implementation commit:** `921c4c9c6f95a6612bade470fbab6a83a797853f`
+**Base:** `ae0787427414206cde394516c2c3658f829d18c4`
+**Result:** Implemented and locally qualified; CI security audit still fails from unrelated prior dependencies.
+**Current state:** Awaiting Review.
+
+### Implemented behavior
+
+- `src/subscriptions/subscriptions.ts`: isolate each synchronous direct, global, tree and parent callback; return sanitized `OMNI_SUBSCRIBER_CALLBACK_FAILED` warning(s), with only a static callback category in `details.kind`, and continue eligible deliveries.
+- `src/Omni.ts`: successful committed writes and `undo()` include those warnings inside existing `OmniResult.issues`. `success: true`, `changed: true`, `rejected: false` and committed values are preserved.
+- Callback arguments, established notification order, `once`, throttle and unsubscribe behavior stay intact. Pre-commit coercion, validation, and protected-token authority are untouched.
+- New `tests/omni/subscriber-isolation.test.ts` covers the correction and pre-existing contracts, including number-to-string coercion.
+- Extended `scripts/package-consumer-smoke.mjs` validates observer isolation through a fresh installed package via public exports, cross-root write-token separation, invalid-write suppression, and nonleakage of raw observer errors.
+- The package smoke harness uses npm's JS CLI on Windows because the pre-existing `execFileSync("npm.cmd")` invocation failed with `EINVAL` under the approved Node 24 environment. This is a narrow qualification-harness correction, not a runtime redesign.
+- `docs/subscriptions/subscriptions.md` documents the new synchronous warning semantics.
+- Issue 0001 resolution/timing approval and active WU link were recorded; acceptance-dependent project serial remains 0.
+
+### Actual verification
+
+| Test / check | Result |
+|---|---|
+| Original defect, before source fix | **Expected RED:** 5 failed, 2 passed (7 initial regression tests) |
+| Corrected focused regression | **PASS:** 8/8 |
+| `npm ci` | **PASS** on RamonaFlowers, Node v24.19.0 |
+| `npm run verify` | **PASS:** includes typecheck, full **138/138 tests in 19 files**, build, fresh packed-package consumer, and `pack:check` |
+| AVAM original native-fit desired contracts | **PASS:** 2/2 via `node --test --test-name-pattern='^OmniTurbo'` against fresh installed corrected tarball; original AVAM script copied unchanged from isolated S02-P1 branch |
+| `git diff --check`, package metadata integrity | **PASS:** lockfile and package metadata unchanged |
+| `npm audit --audit-level=high` | **FAIL (pre-existing):** 12 advisories: 4 moderate, 6 high, 2 critical; lockfile blob `a6cabee23959d18708d2f383c14af6a4f7957045` unchanged |
+| GitHub Actions PR #5 on Node 22 and Node 24 | **FAIL at pre-existing audit step** after successful `npm ci`; the later CI verification step was skipped; Node 22 source/package qualification is **not** established. [Run 44346540889](https://github.com/r146023/OmniTurbo/actions/runs/44346540889) |
+
+The package tarball used for qualification is a **temporary candidate** retaining the existing `0.1.2` metadata. Published `v0.1.2` remains immutable. No package version bump, tag, GitHub Release, npm publication, AVAM code, or AVAM pinned dependency was changed.
+
+### Formal Issues and ideas
+
+- `ASSISTANT-ISSUE-0001`: scheduled and implemented within approved resolution/timing, but remains **Open / Resolution Approved** until Project Owner acceptance-dependent closeout.
+- `ASSISTANT-ISSUE-0002`: pre-existing dependency-audit findings remain **Open / deferred by Owner**. No investigative campaign, upgrade or security bypass was performed.
+- No new unrelated formal Issue or Idea was created in this Work Unit.
+
+### Deviations, limits and compatibility
+
+- The only additional change discovered during qualification was the small Windows npm smoke-launcher correction required for a working installed-package test.
+- Synchronous callback throws are isolated; **asynchronous Promise rejections are deliberately excluded**.
+- Alerts, waiters, pre-commit validators/coercers, private write-token rules, and subscription timing parameters were not redesigned.
+- The current package is **not release-qualified** while the repository security audit is failing. That known finding is separately governed, and publication requires an explicit subsequent release-gate disposition.
+- This Work Unit authorizes neither a release nor downstream AVAM S02-P1 implementation.
+
+### Next steps and Owner action
+
+WU-0001 is **Awaiting Review**. Review [PR #5](https://github.com/r146023/OmniTurbo/pull/5) and this evidence. For full Work Unit acceptance, the applicable phrase is:
+
+```text
+I APPROVE
+```
+
+If approved, close WU-0001 under WA 5.7.0, reconcile Issue 0001 as supported by accepted evidence, and advance Accepted Work Unit Serial exactly once from **0 to 1**. Acceptance does **not** itself merge source, release OmniTurbo, override a red release audit, or authorize AVAM's dependency update.
+
+**Next planned Work Unit:** A separately authorized OmniTurbo integration/versioned-release step (or other explicit release-gate disposition), followed by an independently authorized AVAM pinned-package update and native-fit requalification. **Not authorized** at this review gate.
+
+No acceptance-dependent governance state has advanced beyond the last Project Owner-accepted position.
