@@ -4,7 +4,7 @@
 **Date:** 2026-11-18
 **Accepted WU Serial:** 0 (new native-WA baseline)
 **Trigger:** Existing-project onboarding / major governance authority transition
-**Overall Result:** Findings require follow-up — governance baseline usable after Owner acceptance; no material source-work integrity blocker identified in scoped checks
+**Overall Result:** Dependent work blocked — the existing dependency-audit CI gate fails on Node 22/24; governance-only candidate remains reviewable, with separate Owner disposition required
 
 ## Audit Context and Scope
 
@@ -17,7 +17,8 @@ Assess whether the published OmniTurbo source/release and new WA 5.7.0 administr
 - `r146023/ProjectWorkingAgreement` published `v5.7.0` pack, `README_FIRST`, `WORKFLOW`, `PROJECT_DATA_STANDARD`, `MIGRATION_NOTES`, governance standards and templates.
 - AVAM S02-P1 `v0.1.2` native-fit reproduction, documented evidence, and bounded upstream proposal on `work/avam-v7-s02-p1-thing-scoped-omni`.
 - Local candidate Project Data, Questionnaire, Idea/Issue/Proposal/Review indexes, onboarding record and `STRUCTURE-0001` created under approved RamonaFlowers scoped checkout.
-- No fresh `npm test`, `npm run verify`, or runtime reproduction was executed in this *governance* review. Release/AVAM test findings are historical external evidence.
+- No fresh local `npm test`, `npm run verify`, or runtime reproduction was executed in this *governance* review. Release/AVAM test findings are historical external evidence.
+- After PR #4 publication, GitHub Actions push run [44333869612](https://github.com/r146023/OmniTurbo/actions/runs/44333869612) and PR run [44334008009](https://github.com/r146023/OmniTurbo/actions/runs/44334008009) both failed audit on Node 22/24; dependency install passed and build/tests were skipped.
 
 ## Structural Baseline
 
@@ -54,6 +55,7 @@ Assess whether the published OmniTurbo source/release and new WA 5.7.0 administr
 - Existing subscription tests cover ordinary direct/tree/global, unsubscribe, global once, parent notifications and coercion; they do **not** prove throwing-listener isolation.
 - AVAM's native test documents the actual v0.1.2 gap; it is not falsely reported as passing.
 - The README has three broken links into missing `docs/amber/` files. This is a non-blocking pre-existing documentation inconsistency; do not repair it as unapproved scope.
+- CI's existing `npm audit --audit-level=high` fails with 12 advisories (4 moderate, 6 high, 2 critical), involving the unchanged development-tooling lockfile; no fresh CI build/test success exists for this candidate. This finding is tracked separately as `ASSISTANT-ISSUE-0002`.
 - No fresh runtime test suite was run in this onboarding; all current qualification claims refer to existing evidence only.
 
 ## Governance Integrity
@@ -75,6 +77,7 @@ Assess whether the published OmniTurbo source/release and new WA 5.7.0 administr
 
 - Existing v0.1.2 release and tag are verifiable; earlier Owner acceptance evidence was not reconstructed as v5 Work Units.
 - No self-approval, merge, release or AVAM dependency update is claimed.
+- Both Node 22 and 24 CI checks are red on the governance PR due to existing dependency audit findings; the untouched `package-lock.json` has the same blob SHA (`a6cabee23959d18708d2f383c14af6a4f7957045`) on baseline and candidate. The failed checks must not be interpreted as a verified fix regression, but neither may they be described as passing.
 - The next protected transitions are Owner acceptance of this adoption candidate and a **separate** source-modifying Work Unit authorization for subscriber isolation.
 
 ## Stale / Missing / Contradictory Information
@@ -90,6 +93,7 @@ Assess whether the published OmniTurbo source/release and new WA 5.7.0 administr
 | Observation | Three stale README links to missing Amber docs | GitHub tree/local path checks | No — not adoption or subscriber-correction blocker | Later bounded documentation triage if selected |
 | Process boundary | Adoption candidate awaiting Owner acceptance/integration | Current `main` and isolated branch | **Yes — claiming WA already authoritative on main** | Owner review of governance-only branch before integrating |
 | Known defect (tracked Issue) | Throwing subscriber can interrupt completed mutation delivery | AVAM recorded failing native-fit proof + upstream source inspection | Yes — AVAM S02-P1 native fit | `ASSISTANT-ISSUE-0001`, later bounded corrective WU |
+| Major — separate infrastructure/CI issue | Existing dependency audit reports 12 advisories and fails both supported CI Node versions | PR #4 Actions push/PR runs; unchanged dependency lockfile | Yes — normal green-CI/release qualification, Owner must decide governance-only PR treatment | `ASSISTANT-ISSUE-0002`, separate tooling remediation decision |
 
 ## Issues Created
 
@@ -98,6 +102,7 @@ None.
 
 ### Assistant-originated
 - `ASSISTANT-ISSUE-0001` — v0.1.2 post-commit subscriber failure.
+- `ASSISTANT-ISSUE-0002` — pre-existing development dependency-audit CI gate failure on Node 22/24.
 
 ## Assistant Ideas Created
 
@@ -111,8 +116,9 @@ Introduced new WA 5.7.0 governance navigation and native serial baseline with hi
 
 - Owner acceptance/integration of governance adoption still outstanding.
 - No currently authorized OmniTurbo subscriber-correction Work Unit; Issue direction has been discussed, but implementation must receive its own `I ACCEPT`.
+- Owner disposition is required on governance-only PR #4 under red, demonstrably pre-existing CI checks; a separate dependency maintenance authorization must precede any package graph or CI workflow modification.
 - Future business/platform scope remains Undecided and is not material to this bounded correction.
 
 ## Audit Result
 
-**Initial integrity baseline complete as a review candidate.** Current project source/release history and new governance records are distinguishable, canonical pointers are coherent, and no material structural contradiction was found in the scoped checks. The pre-existing broken documentation links and subscriber defect are explicitly tracked without opportunistic code work. Do not claim governance adoption, corrective success, or release approval until their separate Owner gates are satisfied.
+**Initial integrity baseline complete as a review candidate, with a dependent CI gate blocker.** Project source/release history and new governance records are distinguishable, canonical pointers are coherent, and no material structural contradiction was found in scoped checks. The three pre-existing broken documentation links, subscriber defect, and red dependency-audit CI gate are identified without opportunistic code work. The governance-only adoption branch requires explicit Owner disposition; future source/package release qualification must pass the applicable full CI contract or receive a separately governed decision. Do not claim governance adoption, corrective success, or release approval until their distinct Owner gates are satisfied.

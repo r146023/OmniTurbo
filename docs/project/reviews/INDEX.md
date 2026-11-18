@@ -38,7 +38,7 @@
 ## Currently Due
 
 - No cadence review due at serial 0 after the recorded initial baseline; records remain candidate until Owner acceptance.
-- **Separate non-cadence decision:** `ASSISTANT-ISSUE-0001` (U1) requires resolution/timing and the next explicit `I ACCEPT` before source changes. It does not grant implementation authority.
+- **Separate non-cadence decisions:** `ASSISTANT-ISSUE-0001` (U1) requires the next explicit `I ACCEPT` before subscriber-source changes. `ASSISTANT-ISSUE-0002` (U1) records the pre-existing red dependency-audit gate and requires a distinct Owner decision before any green-CI-required merge or package release. Neither Issue grants implementation authority.
 
 ## Event-Triggered Requirements
 

@@ -21,7 +21,7 @@ The Project Owner asked to bring OmniTurbo under WA 5.7.0, then selected **Ramon
 1. Identify existing README, `docs/`, source tree and release workflow as existing current authorities without rewriting them.
 2. Establish `docs/private/PROJECT_DATA.md`, a setup questionnaire, Idea/Issue/Review indexes and an inactive Proposal relevance index.
 3. Record the AVAM-discovered subscriber failure as an OmniTurbo-native, Assistant-originated Issue. Do not treat issue capture as source-fix authorization.
-4. Perform initial Structure Review and Integrity Audit at **migration baseline serial 0**, without inventing historical WA Work Units.
+4. Perform initial Structure Review and Integrity Audit at **migration baseline serial 0**, without inventing historical WA Work Units. Record the subsequently observed pre-existing red CI audit gate separately as `ASSISTANT-ISSUE-0002`; it is not a governance-document regression.
 5. Preserve historical releases and docs unchanged; retain known non-blocking findings rather than opportunistic cleanup.
 6. Present the governance-only branch for Owner acceptance. **Adoption is not authoritative on `main` until accepted and integrated.**
 
@@ -35,6 +35,10 @@ The Project Owner asked to bring OmniTurbo under WA 5.7.0, then selected **Ramon
 ## Excluded actions
 
 No changes to `src/`, `tests/`, `package.json`, `package-lock.json`, CI workflow, `README.md`, older releases/tags, AVAM files/dependencies, unrelated code, or product semantics. Do not self-approve the onboarding or the subscriber-isolation Work Unit.
+
+## Verified PR CI limitation
+
+After PR #4 was opened, Node 22 and Node 24 GitHub Actions jobs failed at the pre-existing `npm audit --audit-level=high` gate, reporting 12 dependencies with advisories (including 2 critical). The untouched package lockfile is identical to `main`. Source/build/packaged tests were skipped by CI. See `ASSISTANT-ISSUE-0002`. Do not represent CI as passing, automatically upgrade dependencies, or silently weaken the audit. Owner review must address the red baseline separately from the governance-content assessment.
 
 ## Current acceptance boundary
 
