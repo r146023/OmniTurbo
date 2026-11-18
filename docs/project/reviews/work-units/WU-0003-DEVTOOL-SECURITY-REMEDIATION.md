@@ -2,7 +2,7 @@
 
 **Project:** OmniTurbo — `r146023/OmniTurbo`
 **Governing WA:** v5.7.0, immutable `r146023/ProjectWorkingAgreement` release
-**State:** **Awaiting Review** — implementation, real audit remediation, CI qualification and normal-gate `v0.1.4` candidate prepared. Not Owner-approved/Closed; no merge/tag/publication.
+**State:** **Closed** — Project Owner's exact `I APPROVE` accepted WU-0003; approved PR #8 merged, official `v0.1.4` Release published under normal full-audit PASS and independently verified. Earlier Awaiting Review/authorization text remains historical evidence; this closeout is the current state.
 **Machine:** RamonaFlowers (machine identity verified)
 **Owner authorization, 2026-11-18:**
 
@@ -125,3 +125,21 @@ The CI qualification is proven for the **unmerged candidate**, not an actually p
 ```text
 I APPROVE
 ```
+
+## Project Owner approval and completed release closeout — 2026-11-18
+
+**Owner authority:** The Project Owner explicitly responded `I APPROVE` after the mandatory WU-0003 Awaiting Review delivery for [PR #8](https://github.com/r146023/OmniTurbo/pull/8). This accepted the bounded dev-tooling remediation and authorized guarded source integration, normal-gate v0.1.4 release finalization and resulting acceptance-dependent closeout. It did not authorize another Work Unit or changes to other repositories.
+
+**Final outcome: fully Closed.** The reviewed PR #8 head `40fcf0a64d427dc0ce9ff208851a0199810a603f` passed Node 22/24 CI and merged on 2026-11-18T19:53:42Z into authoritative `main` at `94769f173828cc622628c7b2889cd94d60e902ac`. Main CI [44385222344](https://github.com/r146023/OmniTurbo/actions/runs/44385222344) passed **both** runtime jobs including true full/prod security audits and complete library/build/consumer checks. The official [`v0.1.4` GitHub Release](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.4) was published on 2026-11-18T19:55:20Z by [Release workflow run 44385410307](https://github.com/r146023/OmniTurbo/actions/runs/44385410307) (**PASS**) from that exact accepted source. The immutable `v0.1.4` tag resolves directly to `94769f173828cc622628c7b2889cd94d60e902ac`.
+
+**Actual published asset verification:** The official `r146023-omniturbo-0.1.4.tgz` downloaded from GitHub has **52,911 bytes** and SHA-256 `78fc96ba3f5f88b3b46ba8327b1ad11b08ab09f9482d58d25c50ba2dba927e6b`. Both downloadable published audit files have **zero findings**; their SHA-256 checksums and the package checksum were verified against the downloaded `SHA256SUMS` (all 3 PASS). The actual published package was installed into a distinct fresh npm ESM consumer and verified for successful committed `Omni.set` despite an intentionally throwing observer, sanitized warning without exception disclosure, and continued delivery to a later subscriber — **PASS**. This is evidence from the *real release tarball*, not just a locally generated candidate. See `docs/project/releases/V0.1.4-RELEASE-VERIFICATION.md`.
+
+**Security status:** Full `npm audit --audit-level=high` and production-only audit both truly PASS, with **zero vulnerabilities** in the official release evidence. The v0.1.3-only exception was not used, and no audits were skipped or disabled. The old `v0.1.3` published tag remains `1bead142b2219f320590c0472aee2b3a3af3c766` and its historical risk acceptance remains immutable. No npm registry publication was performed.
+
+**Formal Issue:** `ASSISTANT-ISSUE-0002` is **Closed / Verified and Released** based on the accepted source and verified official zero-finding release. No new Issue or Idea is introduced. The prior `ASSISTANT-ISSUE-0001` remains Closed, with its fixed behavior preserved in v0.1.4.
+
+**Accepted WA state:** WU-0003 is **Closed** and increments accepted Work Unit Serial exactly once **2 → 3** in `docs/project/reviews/INDEX.md`. Ordinary **Governance and Structure Reviews become DUE** at serial **3**, but are **not completed by this Work Unit**, and block subsequent protected normal progression until addressed. Integrity cadence remains 9 absent event triggers. No further Work Unit is authorized.
+
+**Historical evidence:** Pre-approval `Awaiting Review` status, candidate-only checks, interim artifact fingerprints and “not yet released” warnings above retain their original *as-of preparation* meaning. They are not current executable release instructions. This dated Owner acceptance and Review Index provide the current release and WU status.
+
+**Final immutable publication authority:** `docs/project/releases/V0.1.4-RELEASE-VERIFICATION.md`. **Next state: Closed / Awaiting Authorization** for any separately chosen work; due Governance/Structure reviews are correctly visible.

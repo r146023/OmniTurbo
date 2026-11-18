@@ -2,11 +2,11 @@
 
 **Project:** OmniTurbo
 **Updated:** 2026-11-18
-**State:** WA 5.7.0 active on `main`, accepted serial **2**. WU-0001/WU-0002 remain Owner-approved/Closed and published `v0.1.3` remains immutable. **WU-0003 is Owner-authorized / Awaiting Review** on an isolated candidate branch: nine tooling findings remediated, exact PR #8 Node 22/24 CI PASS, normal-gate `v0.1.4` release candidate prepared. No acceptance-dependent serial increment, merge, tag or publication yet.
+**State:** WA 5.7.0 active on `main`. WU-0001, WU-0002 and **WU-0003 are Project Owner-approved / Closed**. `v0.1.4` is the latest published package, with true full/production audit PASS (zero findings), checksum and fresh package verification. **Accepted WU serial 3; Governance and Structure Reviews now DUE before further protected normal progression**. No new Work Unit authorized.
 
 ## Current Governance Position
 
-**Accepted Work Unit Serial:** `2` — advanced exactly once `1 → 2` for Owner-approved and completely Closed WU-0002 on 2026-11-18, following verified `v0.1.3` publication. Prior WU-0001 serial `1` retained as history.
+**Accepted Work Unit Serial:** `3` — advanced exactly once `2 → 3` for Owner-approved/Closed WU-0003, after official `v0.1.4` source acceptance, publication and independent verification on 2026-11-18. WU-0001 serial `1` and WU-0002 serial `2` remain historical.
 **Serial Baseline:** 2026-11-18 Owner-authorized WA 5.7.0 existing-project onboarding; native serial 0.
 **Baseline Evidence:** `docs/project/onboarding/WA-5.7.0-ADOPTION-0001.md`, `structure/STRUCTURE-0001.md`, `integrity/AUDIT-0001.md`.
 
@@ -37,9 +37,9 @@
 
 ## Currently Due
 
-- No cadence review due at the accepted serial **2** baseline. WU-0003 is **authorized but not accepted**. Its future full Owner acceptance/closeout will advance serial to **3** and make ordinary Governance and Structure Reviews **due for subsequent protected progression**; Integrity remains due at serial 9, absent independent triggers. No review is falsely marked completed.
+- **DUE NOW at accepted WU serial 3:** Ordinary **Governance Review and Structure Review**, both not yet performed. They must be completed at their own protected review gate before another normal governed progression. The next normal Integrity cadence remains **9** (unless separately event-triggered). Do **not** mark the Governance/Structure Reviews complete merely because WU-0003 closed.
 - **Release-focused targeted review completed and accepted for published `v0.1.3`:** `targeted/V013-RELEASE-READINESS-0001.md`. The Owner accepted a **v0.1.3-only** documented risk exception, approved WU-0002, and the official GitHub Release workflow published the corrected `.tgz` with real full/production audit JSON and SHA256SUMS. The full audit **still fails** with nine tooling findings; this is explicitly not a blanket security PASS or an exception for a later version.
-- **Current Owner disposition:** WU-0001 and WU-0002 are approved/Closed, with immutable published `v0.1.3`; accepted serial remains **2**. The Owner subsequently authorized WU-0003 remediation on RamonaFlowers. WU-0003's `v0.1.4` dependency-only candidate eliminates all nine toolchain findings, passes real normal audit and Node 22/24 GitHub CI on [PR #8](https://github.com/r146023/OmniTurbo/pull/8), and is now **Awaiting Review**, not accepted, merged or published. `ASSISTANT-ISSUE-0001` remains Closed; `ASSISTANT-ISSUE-0002` remains Open / correction Verified on candidate. No next Work Unit authorized.
+- **Current Owner disposition:** WU-0003 received exact `I APPROVE`, the reviewed remediation PR #8 merged to `main` at `94769f173828cc622628c7b2889cd94d60e902ac`, and [official `v0.1.4` Release](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.4) published with actual zero-finding full/production audit JSON, verified checksums and a fresh installed native-ESM consumer PASS. Accepted serial is **3**; `ASSISTANT-ISSUE-0001` and `ASSISTANT-ISSUE-0002` are both **Closed**. `v0.1.3` remains historically immutable with its earlier one-version exception; no new Work Unit authorized.
 
 ## Event-Triggered Requirements
 
@@ -47,10 +47,10 @@
 |---|---|---|---|
 | Existing-project WA 5.7.0 onboarding | Structure Review and Integrity Audit | Material product/source modification after adoption | `STRUCTURE-0001`, `AUDIT-0001` candidate evidence |
 | Material Development Plan introduced later | Governance Due Check and applicable full reviews | Plan approval/implementation as defined by WA | No current approved Development Plan identified |
-| New release candidate | Release-focused Issue review and Governance Due Check | Before next release gate | `v0.1.3` review completed and owner-approved in `targeted/V013-RELEASE-READINESS-0001.md`; narrow one-version exception consumed, future versions require new normal release gate |
+| New release candidate | Release-focused Issue review and Governance Due Check | Before future release gate | `v0.1.4` normal-gate release-focused check performed and reviewed in `targeted/V014-RELEASE-READINESS-0001.md`. Official release published with full audit truly PASS/zero and no risk exception. Other versions remain subject to normal release requirements. |
 
 ## Notes
 
 - The `v0.1.2` release and pre-WA project history are preserved as history, not falsely numbered native WA Work Units.
-- WA 5.7.0 adoption PR #4, accepted WU-0001 PR #5 and accepted WU-0002 PR #6 are all integrated into `main`; `v0.1.3` is tagged and published with verified assets. See `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md`.
-- Corrective WU-0001: `work-units/WU-0001-SUBSCRIBER-ISOLATION.md`, Owner-approved/Closed. WU-0002: `work-units/WU-0002-V013-INTEGRATION-QUALIFICATION.md`, Owner-approved/Closed, published `v0.1.3`. **Current WU-0003:** `work-units/WU-0003-DEVTOOL-SECURITY-REMEDIATION.md`, Owner-authorized, **Awaiting Review** for the zero-finding dev-tooling remediation and normal-gate `v0.1.4` candidate (PR #8). No successor Work Unit authorized.
+- WA 5.7.0 adoption PR #4, accepted WU-0001 PR #5, WU-0002 PR #6, release-closeout PR #7, and accepted WU-0003 PR #8 are integrated into `main`. `v0.1.4` is tagged/published and its official release assets verified; `v0.1.3` is preserved. WU-0003 closeout records will be propagated through their separate post-release governance PR.
+- Corrective WU-0001: `work-units/WU-0001-SUBSCRIBER-ISOLATION.md`, Owner-approved/Closed. WU-0002: `work-units/WU-0002-V013-INTEGRATION-QUALIFICATION.md`, Owner-approved/Closed, published `v0.1.3`. WU-0003: `work-units/WU-0003-DEVTOOL-SECURITY-REMEDIATION.md`, **Owner-approved/Closed**, published normal-gate `v0.1.4` and resolved `ASSISTANT-ISSUE-0002`. See `docs/project/releases/V0.1.4-RELEASE-VERIFICATION.md`. Governance/Structure Reviews **DUE** at serial 3; next Work Unit **Not authorized**.

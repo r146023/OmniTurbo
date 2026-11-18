@@ -19,7 +19,7 @@ None.
 
 | ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
 |---|---|---|---|---|---|---|---|
-| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Original development-tooling audit failure | Confirmed | High | U2 | Historic v0.1.3 tooling; current v0.1.4 successor release qualification | Remediated locally in WU-0003 candidate, **Open pending Owner approval/release** | Owner-authorized WU-0003 Active Work |
+None.
 
 ### Backlog / Opportunistic — U3
 
@@ -29,7 +29,8 @@ None.
 
 | ID | Title | Resolution | Released in | Closure |
 |---|---|---|---|---|
-| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes a successful write | Verified, fixed, successfully published | [v0.1.3](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3) | Closed 2026-11-18; v0.1.2 remains historical affected release |
+| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes a successful write | Verified, fixed, successfully published | [v0.1.3](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3) | Closed 2026-11-18; v0.1.2 remains historically affected |
+| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Development-tooling audit vulnerabilities | Verified, remediation published, current full/production audits both zero | [v0.1.4](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.4) | Closed 2026-11-18; historical v0.1.3 risk acceptance preserved |
 
 ## Legacy / Unknown-Origin Issues
 
