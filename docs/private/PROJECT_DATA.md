@@ -1,6 +1,6 @@
 # Project Data — OmniTurbo
 
-**Status:** WA 5.7.0 governance adoption authorized by the Project Owner on 2026-11-18; the governing-version pointer becomes effective on `main` when adoption PR #4 is integrated.
+**Status:** Active/maintenance, governed by WA 5.7.0 on `main`. Owner-approved WU-0001 source and closeout are integrated; released `v0.1.2` remains unchanged. Current Work Unit state is maintained in the Review Index.
 
 ## Identity
 
@@ -19,12 +19,12 @@
 
 | Field | Value |
 |---|---|
-| Working-agreement version | `5.7.0` — Owner-authorized adoption via governance-only PR #4, effective upon integration to `main` |
+| Working-agreement version | `5.7.0` — Owner-authorized adoption integrated through PR #4 on `main` |
 | Working Agreement source | Immutable `r146023/ProjectWorkingAgreement` tag `v5.7.0` (`bbae52d6c039c96ed81ac8d9411b881ffbf1af29`); published release `SoftwareProjectWorkingAgreement-v5.7.0.zip` |
 | Applicable SSAs | None identified; no active SSA |
 | Formative Experiment governance index | N/A — no authorized participation |
 | Proposal governance index | `docs/project/proposals/INDEX.md` — relevance only; no active Trial |
-| Current source package | `r146023/OmniTurbo` default branch `main` (the current released product baseline is `v0.1.2` at `baeb6919ec9720a9506053a4acd284a12c842b54`); governance-only commits may advance `main` without altering that released baseline |
+| Current source package | `r146023/OmniTurbo` default branch `main`, including Owner-approved WU-0001 source correction merged through PR #5. The **current published** `v0.1.2` remains at `baeb6919ec9720a9506053a4acd284a12c842b54` and does not contain that correction. Versioned candidates and their qualification state are tracked in their own Work Unit and release records, not treated as published authority |
 | Planning-status authority | N/A — no separately approved planning-status authority established |
 | Project Setup Questionnaire | `docs/project/product/PROJECT_QUESTIONNAIRE.md` (reconstructed setup; unresolved fields explicit) |
 | Feature Ledger | N/A for this maintenance/onboarding scope; no approved feature-ledger authority identified |
@@ -45,7 +45,7 @@ Source of governance adoption rationale, Owner direction, and historical boundar
 
 ## Product and design authority
 
-Current product behavior is established by the released `v0.1.2` source/API, the project README, and the existing `docs/` documentation wherever consistent with the source. The existing `v0.1.2` release/tag and its packaged artifact are not altered by the governance adoption. Future source decisions require the ordinary Work Unit, review, qualification and release gates.
+Current source behavior is established by current `main` (including accepted WU-0001), README and maintained `docs/` wherever consistent. The published `v0.1.2` is a distinct immutable historical API/package artifact and does **not** contain WU-0001. The `v0.1.3` candidate is **not published** and requires its normal Work Unit acceptance and release readiness gates.
 
 ## Governance authority
 

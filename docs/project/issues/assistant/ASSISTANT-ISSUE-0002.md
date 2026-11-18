@@ -10,9 +10,9 @@
 **Closure State:** Open
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
-**Last Reviewed:** 2026-11-18 audit follow-up
-**Next Review Trigger:** After subscriber-isolation corrective work / AVAM dependency handoff; immediately before any separately proposed package publication that would rely on a red security-audit result.
-**Affected Versions / Stages:** Existing OmniTurbo `v0.1.2` lockfile and CI; separate from subscriber-isolation implementation
+**Last Reviewed:** 2026-11-18 WU-0002 `v0.1.3` release-focused check (without separate dependency remediation)
+**Next Review Trigger:** Owner decision on OmniTurbo `v0.1.3` full-audit release-readiness blockage; then separately scheduled dependency remediation under approved timing.
+**Affected Versions / Stages:** Pre-existing OmniTurbo development tooling dependency graph (unchanged between released `v0.1.2` and candidate `v0.1.3`, aside from two root package-version fields) and CI; independent of subscriber-isolation source behavior
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
 ## Original Report
@@ -114,7 +114,8 @@ None — no dependency patch or CI bypass authorized by this documentation onboa
 
 - Initial WA onboarding CI verification 2026-11-18.
 - 2026-11-18 Project Owner explicitly deferred remediation and chose not to block WA adoption or subscriber correction over the pre-existing CI failure. This is a scheduling/priority decision, not an assertion that the vulnerabilities are gone or the package is release-qualified.
+- 2026-11-18 WU-0002 release-focused check: current `npm audit --audit-level=high` FAIL on Node 22.23.5 / Node 24.19.0 with **9 vulnerabilities (4 moderate / 3 high / 2 critical)**, rather than the earlier snapshot count of 12. `npm audit --omit=dev --audit-level=high` PASS, 0 advisories; no runtime dependencies are declared. Full audit remains mandated by `docs/releasing.md`. This observation is not a new investigation, a fix, or an Owner-approved waiver. See `docs/project/reviews/targeted/V013-RELEASE-READINESS-0001.md`.
 
 ## Current Decision Summary
 
-Confirmed pre-existing CI audit failure remains open. Project Owner has explicitly deferred investigation/remediation until after the critical OmniTurbo→AVAM correction and approved nonblocking treatment for governance-only adoption and subscriber Work Unit progress. The original failing CI check and future release-qualification contract remain intact; any publication under a red audit requires a distinct release-gate decision.
+Confirmed pre-existing security-audit failure remains Open/U2; Owner has deferred tooling dependency remediation. The approved OmniTurbo subscriber correction is integrated in `main`, and `v0.1.3` source/package verification passes on Node 22 and 24, but current **full** audit FAILS on both with nine advisories. The production-only graph audit passes with zero, yet the existing `docs/releasing.md` full-audit gate still blocks release readiness. No publication or audit exception is authorized by this Issue or the Owner's timing deferral.
