@@ -6,12 +6,12 @@
 **Investigation State:** Confirmed
 **Severity:** High (CI reports critical/high dependency advisories; runtime exposure not established)
 **Urgency:** U2 — deferred dependency maintenance; retain release-readiness visibility
-**Blocks:** Current green CI checks and normal release-readiness certification; explicitly **not** a gate for the WA 5.7.0 governance-only integration or the subscriber-isolation corrective Work Unit under the Owner's 2026-11-18 deferral. Any future package publication despite a red audit requires its own explicit release disposition.
+**Blocks:** The **unexcepted full `npm audit --audit-level=high`** remains FAIL for development tooling; ordinary future release readiness still requires its normal security disposition. A strictly version-specific Project Owner-approved `v0.1.3` release exception was executed with full audit visibility and zero production findings, but does not resolve this Issue or authorize future version exceptions.
 **Closure State:** Open
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
-**Last Reviewed:** 2026-11-18 WU-0002 `v0.1.3` release-focused check (without separate dependency remediation)
-**Next Review Trigger:** Owner final `I APPROVE` review of the strictly bounded `v0.1.3`-only release policy and WU-0002 candidate; separate subsequent dependency/toolchain remediation remains deferred.
+**Last Reviewed:** 2026-11-18 — WU-0002 v0.1.3 Owner-approved exception, successful release and residual-risk confirmation
+**Next Review Trigger:** Future separately authorized dependency/toolchain remediation or next versioned release readiness (the v0.1.3-specific exception must not carry forward). No automatic follow-on Work Unit authorized.
 **Affected Versions / Stages:** Pre-existing OmniTurbo development tooling dependency graph (unchanged between released `v0.1.2` and candidate `v0.1.3`, aside from two root package-version fields) and CI; independent of subscriber-isolation source behavior
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
@@ -118,4 +118,4 @@ None — no dependency patch or CI bypass authorized by this documentation onboa
 
 ## Current Decision Summary
 
-Confirmed pre-existing security-audit failure remains **Open/U2**; Owner still defers dependency remediation. On 2026-11-18 the Owner separately **accepted the nine known dev-tooling advisory risks (including two critical) specifically for v0.1.3**, and expressly authorized WU-0002 to prepare a version-only, fail-closed exception with visible audits. The exception policy and release notes are **candidate documents/code pending explicit `I APPROVE` before integration, tag, or publication**, not a claim that npm full audit passes or that the Issue is resolved. Node 22/24 full library and native-package qualification passes; production-only audit passes with zero findings. Do not extend this authorization to any other version or dependency changes.
+**Open / U2 / remediation deferred.** The Project Owner expressly accepted the nine known development-tooling findings (four moderate, three high, **two critical**) only for the single `v0.1.3` GitHub Release. WU-0002 received final `I APPROVE`, its exact version-specific audit exception passed Node 22/24 CI and was integrated in PR #6. The official `v0.1.3` release was generated successfully from `1bead142b2219f320590c0472aee2b3a3af3c766` with **full audit still FAIL** and raw audit JSON attached; production-only audit reports **zero findings**. This Issue remains unresolved. All later versions require fresh applicable qualification and a distinct Owner disposition; no dependency remediation began during WU-0002.

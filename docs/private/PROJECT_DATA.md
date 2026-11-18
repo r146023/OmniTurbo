@@ -1,6 +1,6 @@
 # Project Data — OmniTurbo
 
-**Status:** Active/maintenance, governed by WA 5.7.0 on `main`. Owner-approved WU-0001 source and closeout are integrated; released `v0.1.2` remains unchanged. Current Work Unit state is maintained in the Review Index.
+**Status:** Active/maintenance, governed by WA 5.7.0 on `main`. Owner-approved WU-0001 correction and WU-0002 v0.1.3 release are integrated/published. Current Work Unit/accepted serial are maintained in the Review Index.
 
 ## Identity
 
@@ -24,7 +24,7 @@
 | Applicable SSAs | None identified; no active SSA |
 | Formative Experiment governance index | N/A — no authorized participation |
 | Proposal governance index | `docs/project/proposals/INDEX.md` — relevance only; no active Trial |
-| Current source package | `r146023/OmniTurbo` default branch `main`, including Owner-approved WU-0001 source correction merged through PR #5. The **current published** `v0.1.2` remains at `baeb6919ec9720a9506053a4acd284a12c842b54` and does not contain that correction. Versioned candidates and their qualification state are tracked in their own Work Unit and release records, not treated as published authority |
+| Current source package | `r146023/OmniTurbo` `main` with approved WU-0001 fix and WU-0002 v0.1.3 release source, integrated at `1bead142b2219f320590c0472aee2b3a3af3c766`. **Latest published release: `v0.1.3`** at [GitHub Releases](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3), exact tag `1bead142...`. Historical `v0.1.2` remains immutable at `baeb6919ec9720a9506053a4acd284a12c842b54` and retains the old subscriber defect |
 | Planning-status authority | N/A — no separately approved planning-status authority established |
 | Project Setup Questionnaire | `docs/project/product/PROJECT_QUESTIONNAIRE.md` (reconstructed setup; unresolved fields explicit) |
 | Feature Ledger | N/A for this maintenance/onboarding scope; no approved feature-ledger authority identified |
@@ -45,7 +45,7 @@ Source of governance adoption rationale, Owner direction, and historical boundar
 
 ## Product and design authority
 
-Current source behavior is established by current `main` (including accepted WU-0001), README and maintained `docs/` wherever consistent. The published `v0.1.2` is a distinct immutable historical API/package artifact and does **not** contain WU-0001. The `v0.1.3` candidate is **not published** and requires its normal Work Unit acceptance and release readiness gates.
+Current source behavior is established by current `main` (including accepted WU-0001 and WU-0002), README, and maintained `docs/` wherever consistent. **Published `v0.1.3` is the current installable package**, with v0.1.3-only Owner-approved development-tooling audit exception; actual full audit remains FAILED (nine known advisories including two critical), production-only audit PASSED (zero). The prior `v0.1.2` is immutable and does not contain the corrected subscriber isolation. See WU-0002 and `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md` for exact accepted source, checksum and audit disclosures.
 
 ## Governance authority
 

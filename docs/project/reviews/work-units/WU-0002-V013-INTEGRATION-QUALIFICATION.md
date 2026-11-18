@@ -2,7 +2,7 @@
 
 **Project:** OmniTurbo
 **Governing Working Agreement:** v5.7.0, immutable official release
-**Current Work Unit State:** Awaiting Review — the Owner-authorized v0.1.3-only dev-tooling exception, full audit evidence and release preparation are qualified under the exact agreed boundary. No WU-0002 `I APPROVE`, PR merge, tag or publication has occurred.
+**Current Work Unit State:** **Closed** — Project Owner `I APPROVE` received 2026-11-18, approved PR #6 merged, the official `v0.1.3` GitHub Release was published and independently verified; complete release closeout documented below. Earlier Awaiting Review text and pre-release plans remain historical decision-time evidence, not current executable instructions.
 **Date Authorized:** 2026-11-18
 **Execution Machine:** RamonaFlowers
 **Accepted WU Predecessor:** WU-0001, Owner-approved/Closed; accepted serial `1`
@@ -273,3 +273,21 @@ This accepts the qualified v0.1.3 exception and permits the **separately guarded
 **Next planned Work Unit:** Developer-toolchain remediation and expiry of the exception after v0.1.3 as a separately proposed, currently **Not authorized** OmniTurbo Work Unit. No other project work is authorized.
 
 **Conclusion:** **WU-0002 Awaiting Review.** Integration of the accepted correction, candidate technical qualification and version-specific release-exception preparation are complete and proven. Full tooling audit remains failed/visible. Acceptance-dependent project-management state remains serial **1**, and no merge/tag/release of PR #6 has occurred.
+
+## Project Owner approval and completed WU-0002 closeout — 2026-11-18
+
+**Owner authority:** Following the mandatory WU-0002 Awaiting Review delivery and direct PR #6 review link, the Project Owner supplied the exact reserved `I APPROVE` on 2026-11-18. This is the final acceptance of the bounded WU-0002 result and v0.1.3-only documented development-tooling risk, **not** an authorization for new dependency work or another project.
+
+**Result:** **Closed / fully delivered**. The accepted correction merged into `main` through PR #5. WU-0002 candidate version/exception code, public risk disclosure, CI and release workflow merged in [PR #6](https://github.com/r146023/OmniTurbo/pull/6) to `main` `1bead142b2219f320590c0472aee2b3a3af3c766` on 2026-11-18T18:59:14Z. The official [v0.1.3 GitHub Release](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3) successfully published at 2026-11-18T19:00:48Z via [Release run 44375808172](https://github.com/r146023/OmniTurbo/actions/runs/44375808172) (PASS). The lightweight `v0.1.3` tag targets exactly the accepted merge commit.
+
+**Published artifact verification:** The actual official release asset `r146023-omniturbo-0.1.3.tgz` (52,913 bytes; SHA-256 `2e319720491b752048a7818b8311a17b6aafffffc247fc535e8d2588154be595`) and both security audit JSON snapshots were downloaded and independently checked against the release `SHA256SUMS`; all 3 checksums **PASS**. The published `.tgz` was installed into a **fresh, external temporary native ESM package consumer** which imported `@r146023/omniturbo@0.1.3` and verified a truthful successfully committed write, sanitized observer-error warning, and continued notification of the next subscriber — **PASS**. This is actual downloaded official asset verification, not merely a source tree / locally packed candidate claim.
+
+**Audits actually reported:** The **full `npm audit --audit-level=high` exits 1** and is *not* represented as passing. It contains 9 known development-tooling vulnerable entries (4 moderate, 3 high, 2 critical). The production-only audit exits 0 with 0 findings. The Owner's **v0.1.3-only documented exception** matches the frozen lockfile and allowed known GHSA set. Both full and production audit snapshots ship as downloadable, individually checksummed GitHub Release assets; source and package verification on Node 22/24 passed in [main CI run 44375611175](https://github.com/r146023/OmniTurbo/actions/runs/44375611175). No npm registry publication was attempted.
+
+**Acceptance-dependent effects:** Accepted Work Unit Serial advances exactly once **1 → 2** in the authoritative Review Index after publication. The source subscriber Issue `ASSISTANT-ISSUE-0001` is **Closed / Verified and Released** in official `v0.1.3`; old `v0.1.2` remains immutable/affected historically. The independent tooling Issue `ASSISTANT-ISSUE-0002` remains **Open/U2**, remediation deferred; no general or later-version waiver is created. The review cadence at accepted serial 2 does **not** trigger normal Governance/Structure (next 3) or Integrity (next 9). WU-0002's proposed release contract and Source Project Data/Issue and Review indexes are reconciled in the same governed closeout integration.
+
+**Historical evidence:** All earlier `Awaiting Review`, `Blocked / Awaiting Decision`, initial candidate hashes and not-yet-published descriptions in this document are explicitly **as-of preparation checkpoints**. This acceptance section and the current Review Index supersede those *runtime status indications*; the historical decision/evidence text is preserved rather than rewritten as originally approved.
+
+**Full immutable release verification:** `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md`.
+
+**Final state:** **Closed / Awaiting Authorization for any next Work Unit.** The next conceivable OmniTurbo-only activity is development-tooling remediation, but no new Work Unit or schedule was authorized. No external project modifications occurred.
