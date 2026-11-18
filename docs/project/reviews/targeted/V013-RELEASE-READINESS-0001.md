@@ -3,7 +3,7 @@
 **Record:** V013-RELEASE-READINESS-0001
 **Date:** 2026-11-18
 **Type:** Targeted release-focused Governance Due Check and relevant Issue review
-**Status:** **v0.1.3-only risk exception preparation Owner-authorized; publication still unapproved.** Full audit still FAIL, narrow exception candidate and disclosure under WU-0002; release/tag cannot proceed before WU-0002 final `I APPROVE` and integration.
+**Status:** **v0.1.3-only risk exception candidate is tested and Awaiting WU-0002 Owner acceptance.** Full audit remains FAIL (nine known findings); strict exception is separately visible in successful Node 22/24 CI, with raw audit artifacts retained. No release/tag before final `I APPROVE` and integration.
 **Project:** OmniTurbo, governed by published WA v5.7.0
 **Related Work Unit:** WU-0002, accepted WU serial **1** before WU-0002; no WU-0002 acceptance yet
 **Sources:** `docs/private/PROJECT_DATA.md`, `docs/project/reviews/INDEX.md`, `docs/releasing.md`, WA `RELEASE_STANDARD.md` §§2–4 and `PROJECT_REVIEW_AND_AUDIT_STANDARD.md` §§7–8, and both current individual Issue records.
@@ -74,3 +74,15 @@ The Owner expressly accepted **nine known dev-tooling findings (including two cr
 **Prerequisites still mandatory:** reviewed/accepted WU-0002 with `I APPROVE`, candidate PR integrated to authoritative `main`, Node 22/24 true CI package/build/negative-policy tests, secure matching tag/version identity, exact real audit reports and no new unexpected findings. This targeted review documents the bounded Owner decision, not a blanket security exception or completed/publicly published release.
 
 The original `ASSISTANT-ISSUE-0002` stays **Open** and toolchain remediation deferred. After a v0.1.3 release, the exception expires by version; it is not used for v0.1.4 or later.
+
+## Completed exception-preparation verification — 2026-11-18
+
+**GitHub Actions CI now passes** on Node 22 and Node 24 under the specifically Owner-authorized, policy-fingerprinted `v0.1.3` candidate exception. [CI run 44373604315](https://github.com/r146023/OmniTurbo/actions/runs/44373604315) at implementation/review head `ad46aa2a37bf3aa0b0b4da2b9b27d130f12ff14a` confirms in **both jobs**: `npm ci` PASS, actual full/prod audit guard **PASS WITH EXPLICIT EXCEPTION**, subsequent `npm run verify` PASS, 138/138 library tests, 14 policy self-tests, build and packed-consumer qualification.
+
+**Actual audit:** Full audit still exits **1** with 9 package findings (4 moderate, 3 high, 2 critical). The machine-readable release policy marks `OWNER_ACCEPTED_EXCEPTION`, not a full-audit `PASS`. Production-only audit exits **0** with 0 findings. The exact lockfile SHA-256 and the known GHSA fingerprint were checked on both Node jobs.
+
+**Evidence retention:** Initial PR #6 run [44373143044](https://github.com/r146023/OmniTurbo/actions/runs/44373143044) passed unit/source/package checks but its `upload-artifact` action defaulted to excluding the hidden `.release-audit` directory and uploaded nothing. The upload configuration was corrected and made fail-closed in commit `ad46aa2a37bf3aa0b0b4da2b9b27d130f12ff14a`. Run 44373604315 now has **both actual downloadable CI artifacts**, `security-audit-node-22` and `security-audit-node-24`. Both were downloaded in a separate local inspection workspace and directly read back: each contains `full.json` (11,708 bytes; 9 findings including 2 critical) and `production.json` (363 bytes; 0 findings). This is **PASS** for the Owner's audit-visibility requirement.
+
+**Version protection:** Policy tests reject other versions, changed lockfile, unrecognized vulnerable packages and GHSA advisories, elevated individual advisory severity, new production dependencies and nonzero production audits. `v0.1.3` public release notes are prepared with an explicit development-tooling risk notice.
+
+**Current release-readiness consequence:** The known dev-tooling findings remain, and Issue `ASSISTANT-ISSUE-0002` is still Open/deferred. The narrowly accepted *version-specific exception candidate* and release workflow are ready for the separate WU-0002 Owner acceptance gate. PR #6 is not merged, no `v0.1.3` tag exists, and no release has been published; those steps are prohibited until `I APPROVE`.
