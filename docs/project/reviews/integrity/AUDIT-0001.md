@@ -122,3 +122,9 @@ Introduced new WA 5.7.0 governance navigation and native serial baseline with hi
 ## Audit Result
 
 **Initial integrity baseline complete as a review candidate, with a dependent CI gate blocker.** Project source/release history and new governance records are distinguishable, canonical pointers are coherent, and no material structural contradiction was found in scoped checks. The three pre-existing broken documentation links, subscriber defect, and red dependency-audit CI gate are identified without opportunistic code work. The governance-only adoption branch requires explicit Owner disposition; future source/package release qualification must pass the applicable full CI contract or receive a separately governed decision. Do not claim governance adoption, corrective success, or release approval until their distinct Owner gates are satisfied.
+
+## Owner disposition addendum — 2026-11-18
+
+After this candidate baseline recorded the failed dependency-audit CI gate, the Project Owner explicitly directed **not** to investigate or delay OmniTurbo/AVAM critical-path progress for that separate finding now. Accordingly, `ASSISTANT-ISSUE-0002` remains Confirmed/Open, but its urgency is U2 and its timing is Approved for later remediation. The prior audit observations and original red CI evidence remain unchanged. The pre-existing failure does **not** block the governance-only WA adoption or development of the separate subscriber-isolation correction; the CI security check remains enabled. This disposition is **not** a claim of green CI, an approval to suppress advisories, or a blanket waiver of release qualification/publication gates.
+
+The issue index and review index have been reconciled to reflect this Owner priority decision. The next source-modifying Work Unit still requires an explicit `I ACCEPT` under WA 5.7.0.

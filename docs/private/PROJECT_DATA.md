@@ -1,6 +1,6 @@
 # Project Data — OmniTurbo
 
-**Status:** WA 5.7.0 adoption candidate on `work/wa-5.7.0-adoption-0001`, pending Project Owner review and integration. The version declaration below is **not yet** an assertion that unmodified `main` has adopted WA 5.7.0.
+**Status:** WA 5.7.0 governance adoption authorized by the Project Owner on 2026-11-18; the governing-version pointer becomes effective on `main` when adoption PR #4 is integrated.
 
 ## Identity
 
@@ -19,7 +19,7 @@
 
 | Field | Value |
 |---|---|
-| Working-agreement version | `5.7.0` — adoption candidate, effective only after Owner acceptance and authoritative integration |
+| Working-agreement version | `5.7.0` — Owner-authorized adoption via governance-only PR #4, effective upon integration to `main` |
 | Working Agreement source | Immutable `r146023/ProjectWorkingAgreement` tag `v5.7.0` (`bbae52d6c039c96ed81ac8d9411b881ffbf1af29`); published release `SoftwareProjectWorkingAgreement-v5.7.0.zip` |
 | Applicable SSAs | None identified; no active SSA |
 | Formative Experiment governance index | N/A — no authorized participation |
@@ -41,7 +41,7 @@
 | Private docs path | `docs/private/` |
 | Project-management docs path | `docs/project/` |
 
-Source of governance adoption rationale and historical boundary: `docs/project/onboarding/WA-5.7.0-ADOPTION-0001.md`. Do not treat an unaccepted migration branch as the authority of `main`. There are no retroactively asserted WA-governed Work Units, audit results, or product acceptance decisions before onboarding.
+Source of governance adoption rationale, Owner direction, and historical boundary: `docs/project/onboarding/WA-5.7.0-ADOPTION-0001.md`. The version applies to `main` only after the Owner-authorized PR #4 integration. There are no retroactively asserted WA-governed Work Units, audit results, or product acceptance decisions before onboarding.
 
 ## Product and design authority
 

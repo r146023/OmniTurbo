@@ -16,11 +16,12 @@ None recorded.
 | ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
 |---|---|---|---|---|---|---|---|
 | [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes successful write | Confirmed | High | U1 | AVAM S02-P1 OmniTurbo native-fit | Resolution Proposed | Timing Proposed |
-| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Existing dependency audit gate fails on Node 22/24 | Confirmed | High | U1 | CI / release qualification | No Resolution Proposed | Unscheduled |
 
 ### Normal Queue — U2
 
-None.
+| ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
+|---|---|---|---|---|---|---|---|
+| [ASSISTANT-ISSUE-0002](assistant/ASSISTANT-ISSUE-0002.md) | Existing dependency audit gate fails on Node 22/24 | Confirmed | High | U2 | Release qualification; not governance/source correction | No Resolution Proposed | Timing Approved (deferred) |
 
 ### Backlog / Opportunistic — U3
 

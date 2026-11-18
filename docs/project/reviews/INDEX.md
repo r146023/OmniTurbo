@@ -2,12 +2,12 @@
 
 **Project:** OmniTurbo
 **Updated:** 2026-11-18
-**State:** Initial WA 5.7.0 governance baseline on adoption candidate branch; becomes authoritative after Owner acceptance/integration.
+**State:** Initial WA 5.7.0 governance baseline authorized by the Project Owner; effective on `main` upon integration of governance PR #4.
 
 ## Current Governance Position
 
 **Accepted Work Unit Serial:** `0` — initial native WA baseline; no historical native WA Work Units inferred.
-**Serial Baseline:** 2026-11-18 WA 5.7.0 existing-project onboarding (candidate pending Owner acceptance).
+**Serial Baseline:** 2026-11-18 Owner-authorized WA 5.7.0 existing-project onboarding; native serial 0.
 **Baseline Evidence:** `docs/project/onboarding/WA-5.7.0-ADOPTION-0001.md`, `structure/STRUCTURE-0001.md`, `integrity/AUDIT-0001.md`.
 
 ### Last Governance Review
@@ -37,8 +37,8 @@
 
 ## Currently Due
 
-- No cadence review due at serial 0 after the recorded initial baseline; records remain candidate until Owner acceptance.
-- **Separate non-cadence decisions:** `ASSISTANT-ISSUE-0001` (U1) requires the next explicit `I ACCEPT` before subscriber-source changes. `ASSISTANT-ISSUE-0002` (U1) records the pre-existing red dependency-audit gate and requires a distinct Owner decision before any green-CI-required merge or package release. Neither Issue grants implementation authority.
+- No cadence review due at serial 0 after the recorded initial baseline. Current authoritative application of this baseline requires integration of PR #4 into `main`.
+- **Current owner disposition:** `ASSISTANT-ISSUE-0001` (U1) remains the critical AVAM-blocking correction and requires a separate explicit `I ACCEPT` before source changes. `ASSISTANT-ISSUE-0002` (U2) remains open but its remediation is deferred by Owner until after critical OmniTurbo/AVAM work; pre-existing audit failures do not block governance-only adoption or a bounded corrective implementation. A separately authorized package release still must address its own qualification/exception decision. Neither Issue grants implementation authority.
 
 ## Event-Triggered Requirements
 

@@ -1,7 +1,7 @@
 # OmniTurbo — WA 5.7.0 Existing-Project Adoption 0001
 
 **Date:** 2026-11-18
-**State:** Candidate for Project Owner review; no automatic authority on `main`
+**State:** Owner-directed governance-only adoption accepted for integration, with pre-existing CI advisory deferral; effective on `main` when PR #4 is merged
 **Scope:** Administrative onboarding of existing `r146023/OmniTurbo` to published Software Project Working Agreement v5.7.0
 
 ## Owner direction
@@ -38,11 +38,11 @@ No changes to `src/`, `tests/`, `package.json`, `package-lock.json`, CI workflow
 
 ## Verified PR CI limitation
 
-After PR #4 was opened, Node 22 and Node 24 GitHub Actions jobs failed at the pre-existing `npm audit --audit-level=high` gate, reporting 12 dependencies with advisories (including 2 critical). The untouched package lockfile is identical to `main`. Source/build/packaged tests were skipped by CI. See `ASSISTANT-ISSUE-0002`. Do not represent CI as passing, automatically upgrade dependencies, or silently weaken the audit. Owner review must address the red baseline separately from the governance-content assessment.
+After PR #4 was opened, Node 22 and Node 24 GitHub Actions jobs failed at the pre-existing `npm audit --audit-level=high` gate, reporting 12 dependencies with advisories (including 2 critical). The untouched package lockfile is identical to `main`. Source/build/packaged tests were skipped by CI. See `ASSISTANT-ISSUE-0002`. Do not represent CI as passing, automatically upgrade dependencies, or silently weaken the audit. **2026-11-18 Owner disposition:** keep the existing audit failure visible but defer dependency investigation/remediation; do not hold the governance-only adoption or time-critical subscriber correction behind unrelated tooling maintenance. Record the priority decision in `ASSISTANT-ISSUE-0002` and the Review Index. This is not a claim that CI passed and is not a blanket future package-publication waiver.
 
 ## Current acceptance boundary
 
-A reviewable governance-only branch is a **candidate**, not proof that the authoritative project has adopted the WA. Project Owner acceptance and separately authorized integration are required before `main` can be reported as governed by 5.7.0.
+The Project Owner directed that pre-existing dependency-audit findings must not hold OmniTurbo/AVAM work hostage and elected to defer dependency remediation. This provides the disposition for **governance-only PR #4 integration** without misrepresenting CI as passing. WA 5.7.0 is authoritative for OmniTurbo only after that adoption is integrated on `main`; no subscriber source-modification Work Unit or package release has been authorized by this decision.
 
 ## Follow-on
 

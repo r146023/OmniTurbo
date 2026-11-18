@@ -5,13 +5,13 @@
 **Type:** Infrastructure / security-maintenance risk
 **Investigation State:** Confirmed
 **Severity:** High (CI reports critical/high dependency advisories; runtime exposure not established)
-**Urgency:** U1 — decision before a green-CI-required merge or release
-**Blocks:** Current green CI checks for adoption PR #4 and future normal package-release readiness; does not prove governance documentation is defective
+**Urgency:** U2 — deferred dependency maintenance; retain release-readiness visibility
+**Blocks:** Current green CI checks and normal release-readiness certification; explicitly **not** a gate for the WA 5.7.0 governance-only integration or the subscriber-isolation corrective Work Unit under the Owner's 2026-11-18 deferral. Any future package publication despite a red audit requires its own explicit release disposition.
 **Closure State:** Open
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
 **Last Reviewed:** 2026-11-18 audit follow-up
-**Next Review Trigger:** Owner decision on PR #4 governance integration under pre-existing red checks; any subsequent tooling remediation or release qualification
+**Next Review Trigger:** After subscriber-isolation corrective work / AVAM dependency handoff; immediately before any separately proposed package publication that would rely on a red security-audit result.
 **Affected Versions / Stages:** Existing OmniTurbo `v0.1.2` lockfile and CI; separate from subscriber-isolation implementation
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
@@ -78,19 +78,19 @@ N/A — no separate Owner authorization yet.
 
 ### Timing State
 
-`Unscheduled`
+`Timing Approved`
 
 ### Proposed Timing
 
-Before representing a future package candidate as release-ready; decide separately whether the pre-existing red CI should block administrative governance-only PR #4 integration.
+Defer toolchain dependency remediation until after the time-critical OmniTurbo subscriber correction and AVAM handoff. Keep security-audit failures visible; any future package-release readiness exception remains a separate Owner decision.
 
 ### Approved Timing
 
-N/A.
+After the OmniTurbo subscriber-isolation corrective effort and AVAM's critical-path handoff. No immediate investigation or dependency-upgrade Work Unit. The existing audit gate remains enabled, and red CI cannot be characterized as passing.
 
 ### Timing Decision Evidence
 
-N/A.
+2026-11-18 Project Owner instruction: do not investigate or hold current projects hostage over this now; OmniTurbo needs to progress for AVAM, and the dependency issue can be resolved afterward.
 
 ## Verification Requirements
 
@@ -113,7 +113,8 @@ None — no dependency patch or CI bypass authorized by this documentation onboa
 ## Review History
 
 - Initial WA onboarding CI verification 2026-11-18.
+- 2026-11-18 Project Owner explicitly deferred remediation and chose not to block WA adoption or subscriber correction over the pre-existing CI failure. This is a scheduling/priority decision, not an assertion that the vulnerabilities are gone or the package is release-qualified.
 
 ## Current Decision Summary
 
-Confirmed pre-existing CI audit failure with no in-scope remediation. Record as an independent issue, do not expand the governance or subscriber-correction scope, and surface the Owner decision before a protected merge/release transition.
+Confirmed pre-existing CI audit failure remains open. Project Owner has explicitly deferred investigation/remediation until after the critical OmniTurbo→AVAM correction and approved nonblocking treatment for governance-only adoption and subscriber Work Unit progress. The original failing CI check and future release-qualification contract remain intact; any publication under a red audit requires a distinct release-gate decision.
