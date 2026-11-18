@@ -5,7 +5,7 @@
 **Type:** Targeted release-focused Governance Due Check and relevant Issue review
 **Status:** **Completed: Owner-approved, version-specific risk exception consumed for the published v0.1.3 release on 2026-11-18.** Full audit still FAIL with nine known dev-tooling findings, production-only audit PASS/zero; official release contains downloadable full audit reports and installable package. WU-0002 accepted and Closed, normal release gate applies to future versions.
 **Project:** OmniTurbo, governed by published WA v5.7.0
-**Related Work Unit:** WU-0002, accepted WU serial **1** before WU-0002; no WU-0002 acceptance yet
+**Related Work Unit:** WU-0002; accepted WU serial **1** before its Owner-approved closeout, now **2** after completed `v0.1.3` publication and verification.
 **Sources:** `docs/private/PROJECT_DATA.md`, `docs/project/reviews/INDEX.md`, `docs/releasing.md`, WA `RELEASE_STANDARD.md` §§2–4 and `PROJECT_REVIEW_AND_AUDIT_STANDARD.md` §§7–8, and both current individual Issue records.
 
 ## Governance Due Check

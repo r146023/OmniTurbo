@@ -5,8 +5,8 @@
 **Type:** Defect
 **Investigation State:** Confirmed by recorded AVAM native-fit evidence and independent upstream source inspection
 **Severity:** High
-**Urgency:** U1 — review before dependent AVAM integration work
-**Blocks:** AVAM V7 S02-P1 native OmniTurbo fit gate (AVAM WU-0024)
+**Urgency:** U1 at report; **Closed** after verified corrected OmniTurbo `v0.1.3` publication.
+**Blocks:** Historical pre-fix package consumers, including the originally reported native-fit contract. **Resolved in published OmniTurbo `v0.1.3`.** No other project's current readiness is asserted.
 **Closure State:** Closed
 **Closure Reason:** Verified synchronous subscriber exception isolation implemented by Owner-approved WU-0001, merged in PR #5 and published in qualified GitHub Release `v0.1.3` on 2026-11-18 (tag `1bead142b2219f320590c0472aee2b3a3af3c766`). Published installable tarball independently downloaded and tested; `v0.1.2` remains historically affected.
 **Reported:** 2026-11-17 (AVAM evidence), presented for OmniTurbo correction 2026-11-18
