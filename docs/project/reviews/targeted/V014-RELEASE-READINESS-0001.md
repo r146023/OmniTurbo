@@ -1,7 +1,7 @@
 # OmniTurbo v0.1.4 — Release-Focused Governance Due Check and Security Issue Review
 
 **Date:** 2026-11-18
-**Status:** Node 22/24 GitHub CI-qualified normal-gate **candidate, Awaiting Review**; no release publication, acceptance or main integration authorized yet.
+**Status:** **Completed — WU-0003 Owner-approved and `v0.1.4` published under the normal full security-audit gate.** Full and production npm audit both PASS with zero; official published package and checksums independently verified. Historical candidate-only review text below is preserved as earlier decision-time evidence.
 **Project:** OmniTurbo, Software Project Working Agreement v5.7.0
 **Work Unit:** WU-0003, Owner-authorized bounded development-tooling security remediation
 **Accepted baseline:** `main` `6108e21efb52280f24cb8c2a181c8c0acce7eae0`, accepted Work Unit serial **2**.
@@ -47,3 +47,13 @@ Closed/Released with v0.1.3; verify preserved behavior through complete regressi
 Complete the scoped PR, run/verify exact GitHub CI on both supported Node versions, then deliver the mandatory WA WU-0003 Owner review. Return for the Owner's `I APPROVE` **before merging the remediation PR or creating/publishing any release**.
 
 The historic v0.1.3 exception remains version-limited; this candidate qualifies through the **normal green audit**. No dependency remediation is needed outside OmniTurbo, and no other repository is to be accessed or modified.
+
+## Final Owner-approved release-focused disposition — 2026-11-18
+
+**Result: Complete for `v0.1.4`.** The Owner used `I APPROVE` to accept WU-0003 before PR merge/tag/publication. The reviewed PR #8 was integrated into `main` commit `94769f173828cc622628c7b2889cd94d60e902ac`, both Node 22/24 main CI checks passed, and the official release workflow 44385410307 published `v0.1.4` from that exact accepted commit with the true normal audit gate **PASS**.
+
+The complete official `SECURITY-AUDIT-FULL.json` and `SECURITY-AUDIT-PRODUCTION.json` release assets both report **zero** vulnerabilities. The installable official tarball, two audit JSON reports and `SHA256SUMS` were independently downloaded; all listed checksums match. Native ESM fresh-installed published consumer regressions pass, including the corrected subscriber error isolation.
+
+`ASSISTANT-ISSUE-0002` can now be marked **Closed / Verified and Released** based on accepted source and published package evidence. The historical published `v0.1.3` remains unchanged with its original one-version risk exception. No security audit weakening was used for v0.1.4.
+
+**Governance cadence:** Accepted WU serial is now **3**; ordinary Governance Review and Structure Review are **DUE but not performed**. The remaining cadence items must be addressed before future protected normal work. Complete official release provenance is `docs/project/releases/V0.1.4-RELEASE-VERIFICATION.md`. No additional project/Work Unit authority is created.

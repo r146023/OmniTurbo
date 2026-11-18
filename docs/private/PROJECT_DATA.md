@@ -1,6 +1,6 @@
 # Project Data — OmniTurbo
 
-**Status:** Active/maintenance, governed by WA 5.7.0 on `main`. Owner-approved WU-0001 correction and WU-0002 v0.1.3 release are integrated/published. Current Work Unit/accepted serial are maintained in the Review Index.
+**Status:** Active/maintenance, governed by WA 5.7.0 on `main`. Owner-approved WU-0001/WU-0002 work and the WU-0003 normal-gate dev-tooling security remediation are integrated. Official `v0.1.4` is published with full/production audits passing; current accepted Work Unit serial and due reviews are recorded in the Review Index.
 
 ## Identity
 
@@ -24,7 +24,7 @@
 | Applicable SSAs | None identified; no active SSA |
 | Formative Experiment governance index | N/A — no authorized participation |
 | Proposal governance index | `docs/project/proposals/INDEX.md` — relevance only; no active Trial |
-| Current source package | `r146023/OmniTurbo` `main` with approved WU-0001 fix and WU-0002 v0.1.3 release source, integrated at `1bead142b2219f320590c0472aee2b3a3af3c766`. **Latest published release: `v0.1.3`** at [GitHub Releases](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3), exact tag `1bead142...`. Historical `v0.1.2` remains immutable at `baeb6919ec9720a9506053a4acd284a12c842b54` and retains the old subscriber defect |
+| Current source package | `r146023/OmniTurbo` `main`, including Owner-approved WU-0003 development-tooling remediation merged in [PR #8](https://github.com/r146023/OmniTurbo/pull/8). **Latest published release: [`v0.1.4`](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.4)** tagged to exact source commit `94769f173828cc622628c7b2889cd94d60e902ac` with full and production audit **0 findings**. Historical `v0.1.3` tag `1bead142b2219f320590c0472aee2b3a3af3c766` and earlier releases remain immutable |
 | Planning-status authority | N/A — no separately approved planning-status authority established |
 | Project Setup Questionnaire | `docs/project/product/PROJECT_QUESTIONNAIRE.md` (reconstructed setup; unresolved fields explicit) |
 | Feature Ledger | N/A for this maintenance/onboarding scope; no approved feature-ledger authority identified |
@@ -45,7 +45,7 @@ Source of governance adoption rationale, Owner direction, and historical boundar
 
 ## Product and design authority
 
-Current source behavior is established by current `main` (including accepted WU-0001 and WU-0002), README, and maintained `docs/` wherever consistent. **Published `v0.1.3` is the current installable package**, with v0.1.3-only Owner-approved development-tooling audit exception; actual full audit remains FAILED (nine known advisories including two critical), production-only audit PASSED (zero). The prior `v0.1.2` is immutable and does not contain the corrected subscriber isolation. See WU-0002 and `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md` for exact accepted source, checksum and audit disclosures.
+Current source behavior is established by `main`, README and maintained `docs/` where consistent. **Current installable GitHub package: published `v0.1.4`**, reproducing WU-0001 subscriber correction and WU-0003 development-tooling security remediation under the **normal full-audit gate with zero findings**. Prior published `v0.1.3` remains immutable with its version-specific historical Owner-risk-accepted tooling advisories. See `docs/project/releases/V0.1.4-RELEASE-VERIFICATION.md` for source/tag, package SHA-256, actual security reports, CI and fresh installed-consumer proof.
 
 ## Governance authority
 
