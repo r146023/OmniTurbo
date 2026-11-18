@@ -32,7 +32,14 @@ jobs:
           cache: npm
       - name: Install exact dependency graph
         run: npm ci
-      - name: Audit production/package graph
-        run: npm audit --audit-level=high
+      - name: Audit full and production dependency graphs with strict v0.1.3 exception guard
+        run: node scripts/verify-audit-gate.mjs
+      - name: Preserve full audit reports in CI artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-node-${{ matrix.node }}
+          path: .release-audit/
+          if-no-files-found: ignore
       - name: Verify source, build, and packed consumer
         run: npm run verify

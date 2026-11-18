@@ -23,11 +23,12 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
     "test": "vitest run",
+    "test:audit-policy": "node --test scripts/audit-exception-selftest.mjs",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "test:package": "node ./scripts/package-consumer-smoke.mjs",
     "pack:check": "npm pack --dry-run",
-    "verify": "npm run typecheck && npm test && npm run build && npm run test:package && npm run pack:check",
+    "verify": "npm run typecheck && npm test && npm run test:audit-policy && npm run build && npm run test:package && npm run pack:check",
     "prepublishOnly": "npm run verify"
   },
   "keywords": [

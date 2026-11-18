@@ -11,7 +11,7 @@
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
 **Last Reviewed:** 2026-11-18 WU-0002 `v0.1.3` release-focused check (without separate dependency remediation)
-**Next Review Trigger:** Owner decision on OmniTurbo `v0.1.3` full-audit release-readiness blockage; then separately scheduled dependency remediation under approved timing.
+**Next Review Trigger:** Owner final `I APPROVE` review of the strictly bounded `v0.1.3`-only release policy and WU-0002 candidate; separate subsequent dependency/toolchain remediation remains deferred.
 **Affected Versions / Stages:** Pre-existing OmniTurbo development tooling dependency graph (unchanged between released `v0.1.2` and candidate `v0.1.3`, aside from two root package-version fields) and CI; independent of subscriber-isolation source behavior
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
@@ -118,4 +118,4 @@ None — no dependency patch or CI bypass authorized by this documentation onboa
 
 ## Current Decision Summary
 
-Confirmed pre-existing security-audit failure remains Open/U2; Owner has deferred tooling dependency remediation. The approved OmniTurbo subscriber correction is integrated in `main`, and `v0.1.3` source/package verification passes on Node 22 and 24, but current **full** audit FAILS on both with nine advisories. The production-only graph audit passes with zero, yet the existing `docs/releasing.md` full-audit gate still blocks release readiness. No publication or audit exception is authorized by this Issue or the Owner's timing deferral.
+Confirmed pre-existing security-audit failure remains **Open/U2**; Owner still defers dependency remediation. On 2026-11-18 the Owner separately **accepted the nine known dev-tooling advisory risks (including two critical) specifically for v0.1.3**, and expressly authorized WU-0002 to prepare a version-only, fail-closed exception with visible audits. The exception policy and release notes are **candidate documents/code pending explicit `I APPROVE` before integration, tag, or publication**, not a claim that npm full audit passes or that the Issue is resolved. Node 22/24 full library and native-package qualification passes; production-only audit passes with zero findings. Do not extend this authorization to any other version or dependency changes.

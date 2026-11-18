@@ -3,7 +3,7 @@
 **Record:** V013-RELEASE-READINESS-0001
 **Date:** 2026-11-18
 **Type:** Targeted release-focused Governance Due Check and relevant Issue review
-**Status:** **BLOCKED for release publication — current full security-audit gate FAIL**
+**Status:** **v0.1.3-only risk exception preparation Owner-authorized; publication still unapproved.** Full audit still FAIL, narrow exception candidate and disclosure under WU-0002; release/tag cannot proceed before WU-0002 final `I APPROVE` and integration.
 **Project:** OmniTurbo, governed by published WA v5.7.0
 **Related Work Unit:** WU-0002, accepted WU serial **1** before WU-0002; no WU-0002 acceptance yet
 **Sources:** `docs/private/PROJECT_DATA.md`, `docs/project/reviews/INDEX.md`, `docs/releasing.md`, WA `RELEASE_STANDARD.md` §§2–4 and `PROJECT_REVIEW_AND_AUDIT_STANDARD.md` §§7–8, and both current individual Issue records.
@@ -60,3 +60,17 @@ Do **not** tag, publish, self-approve a waiver, change CI or modify dependencies
 ## Scope and historical outcome
 
 This is a narrow candidate release-focused review, **not** a general Integrity Audit, dependency investigation, release approval, new WU, or acceptance of WU-0002. No changes to another project. The report is current evidence for an explicit future Owner disposition, not an independent source of authority to change the release process.
+
+## Subsequent Owner risk decision and proposed controlled exception — 2026-11-18
+
+The Owner expressly accepted **nine known dev-tooling findings (including two critical) for v0.1.3 only** and expanded the existing WU-0002 scope on RamonaFlowers to prepare a guarded release exception while deferring dependency maintenance. The Owner requires a **separate `I APPROVE` before PR merge, tag or publication**. This supersedes the earlier “no exception authorized” *decision status* for candidate preparation only, without altering the factual full-audit FAIL evidence above.
+
+**Prepared exception (candidate, pending final approval):**
+- `scripts/audit-exception-policy.mjs` freezes the exact v0.1.3 LF-normalized lockfile SHA-256, observed maximum nine package findings (4 moderate, 3 high, 2 critical), exact allowed package names and GHSA IDs, and individual severity/production-scope boundaries. New advisory ID, severity escalation, lockfile alteration or different version **FAILS**.
+- `scripts/verify-audit-gate.mjs` executes **both real audits**, preserves complete JSON output, and returns a visible `OWNER_ACCEPTED_EXCEPTION` only for the known dev-only risk; never labels a failing full audit as PASS. Production-only audit must pass with **zero findings**.
+- `.github/workflows/ci.yml` and `release.yml` retain audit logs and downloadable reports. GitHub Release candidate includes installable `.tgz`, both raw JSON audit reports, checksums and version-specific public risk disclosure. For v0.1.3, publication refuses to overwrite a prior release.
+- The ordinary fatal high-level audit requirement remains in force for every other package version and for any v0.1.3 input outside the approved fingerprint.
+
+**Prerequisites still mandatory:** reviewed/accepted WU-0002 with `I APPROVE`, candidate PR integrated to authoritative `main`, Node 22/24 true CI package/build/negative-policy tests, secure matching tag/version identity, exact real audit reports and no new unexpected findings. This targeted review documents the bounded Owner decision, not a blanket security exception or completed/publicly published release.
+
+The original `ASSISTANT-ISSUE-0002` stays **Open** and toolchain remediation deferred. After a v0.1.3 release, the exception expires by version; it is not used for v0.1.4 or later.

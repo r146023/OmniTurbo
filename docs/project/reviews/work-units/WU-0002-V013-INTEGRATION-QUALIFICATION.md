@@ -2,7 +2,7 @@
 
 **Project:** OmniTurbo
 **Governing Working Agreement:** v5.7.0, immutable official release
-**Current Work Unit State:** Blocked / Awaiting Decision at the versioned release-readiness security-audit gate; completed integration and candidate qualification are reviewable, but WU-0002 is not yet accepted.
+**Current Work Unit State:** Active Work — the Owner expressly accepted the v0.1.3-only development-tooling risk and authorized a bounded release-exception preparation on RamonaFlowers, with an explicit stop for separate `I APPROVE` before merge, tag or publication. WU-0002 is not yet accepted.
 **Date Authorized:** 2026-11-18
 **Execution Machine:** RamonaFlowers
 **Accepted WU Predecessor:** WU-0001, Owner-approved/Closed; accepted serial `1`
@@ -171,3 +171,19 @@ If the Owner later authorizes the missing decision and full WU-0002 scope is com
 ## Conclusion
 
 Integration and technical candidate qualification are complete and reproducible. The **release security/readiness gate remains FAIL**, so WU-0002 is **Blocked / Awaiting Decision**. No `I APPROVE` closeout has occurred and acceptance-dependent project documentation remains at **Accepted Work Unit Serial 1**. No additional Work Unit, package tag, GitHub Release or external project action has been authorized.
+
+## Project Owner scope expansion — 2026-11-18
+
+The following Project Owner directive resolves the earlier release-gate **Blocked / Awaiting Decision** state **for bounded exception preparation only**, while preserving the prior failed audit observations as historical evidence:
+
+```text
+I ACCEPT OMNITURBO WU-0002 SCOPE EXPANSION ON RAMONAFLOWERS TO PREPARE A V0.1.3-ONLY RELEASE EXCEPTION FOR THE NINE KNOWN DEVELOPMENT-TOOLING AUDIT FINDINGS, INCLUDING TWO CRITICAL. I ACCEPT THIS VERSION-SPECIFIC RELEASE RISK, REQUIRE THE FULL AUDIT RESULTS TO REMAIN VISIBLE, AND AUTHORIZE PREPARATION OF THE CORRECTED GITHUB RELEASE. DEFER DEPENDENCY REMEDIATION. RETURN FOR MY I APPROVE BEFORE MERGE, TAG OR PUBLICATION.
+```
+
+**Effect:** Authorized / Active Work resumed, but only for a narrowly constrained, version-specific release qualification exception and the prepared future GitHub Release mechanism. The Owner expressly accepted the documented development-tooling risk **for v0.1.3 only**; WU-0002 final acceptance, integration of exception code/policy, tag creation and release publication remain **unapproved** until the next explicit `I APPROVE`.
+
+**Scope added:** proposed update to `docs/releasing.md`; machine-checkable exact-v0.1.3-only locked-graph/known-GHSA exception policy; both full and production-only audits retained verbatim in CI/release logs and downloadable audit report assets; negative test cases for the exception; version-specific publication steps that reject overwrite of existing v0.1.3 releases and attach audit evidence/checksums.
+
+**Exclusions preserved:** no changes to production behavior, production/runtime dependency declarations, development dependency versions, package lock graph, AVAM, the original v0.1.2 release/tag, or Owner acceptance-dependent Work Unit serial. No `v0.1.3` Git tag, GitHub Release, npm registry publication, CI changes on authoritative `main`, or new Work Unit authorization before the Owner's explicit approval.
+
+The earlier WU-0002 blocked review above records the pre-decision state and remains evidence; this dated section is the later Owner disposition, not a retroactive rewrite of that history.
