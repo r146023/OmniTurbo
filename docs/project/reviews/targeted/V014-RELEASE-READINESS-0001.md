@@ -1,7 +1,7 @@
 # OmniTurbo v0.1.4 — Release-Focused Governance Due Check and Security Issue Review
 
 **Date:** 2026-11-18
-**Status:** Qualified normal-gate **candidate**; no release publication, acceptance or main integration authorized yet.
+**Status:** Node 22/24 GitHub CI-qualified normal-gate **candidate, Awaiting Review**; no release publication, acceptance or main integration authorized yet.
 **Project:** OmniTurbo, Software Project Working Agreement v5.7.0
 **Work Unit:** WU-0003, Owner-authorized bounded development-tooling security remediation
 **Accepted baseline:** `main` `6108e21efb52280f24cb8c2a181c8c0acce7eae0`, accepted Work Unit serial **2**.
@@ -39,7 +39,7 @@ Closed/Released with v0.1.3; verify preserved behavior through complete regressi
 | Normal audit gate (no exception used) | **PASS, fullAuditExit 0** |
 | 138 library regression tests, 14 policy tests each runtime | **PASS** |
 | Typecheck, build, packed native ESM smoke and pack check | **PASS** |
-| CI checks on exact PR head | **NOT YET RUN** |
+| CI checks on exact PR #8 head `cf0be08` | **PASS — run 44382384864; full and production audit JSON independently downloaded, zero findings on both Node versions** |
 | Owner `I APPROVE` / accepted main version / release tag / published artifact | **NOT AUTHORIZED / NOT RUN** |
 
 ## Remaining gate

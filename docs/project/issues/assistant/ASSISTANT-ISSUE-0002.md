@@ -11,7 +11,7 @@
 **Closure Reason:** N/A
 **Reported:** 2026-11-18
 **Last Reviewed:** 2026-11-18 — WU-0003 v0.1.4 local Node 22/24 security-remediation candidate qualification
-**Next Review Trigger:** WU-0003 GitHub CI/mandatory Owner review and, after acceptance, separate release-qualification/publication; no Issue closure before authority and evidence.
+**Next Review Trigger:** WU-0003 mandatory `I APPROVE` review, followed by accepted source integration and normal successor-release qualification; do not close before actual accepted disposition and evidence.
 **Affected Versions / Stages:** Published historical `v0.1.3` dev-tooling graph remains affected; the unaccepted `v0.1.4` candidate contains a locally verified compatible remediation, with no change to runtime/source behavior.
 **Environment:** GitHub Actions CI workflow, Node 22 and Node 24 jobs, push and pull_request runs on governance-only PR #4
 
@@ -19,7 +19,7 @@
 
 While verifying the governance-only WA 5.7.0 adoption candidate, both Node 22 and Node 24 CI jobs failed at `npm audit --audit-level=high` after successful `npm ci`. The next `npm run verify` step was skipped. This failure was not introduced by the governance documents: `package.json`, `package-lock.json`, CI workflow and source are identical to the pre-adoption commit.
 
-## Current Understanding
+## Original Onboarding Understanding (Historical; Superseded by Current Decision Summary)
 
 CI runs `npm ci`, then a full `npm audit --audit-level=high`. The advisory database currently reports **12 vulnerabilities (4 moderate, 6 high, 2 critical)** involving development/build/test tooling such as Vitest/Vite transitive dependencies, `tinypool`, `picomatch`, `source-map-js` and others. Some reported fixes may require a breaking Vitest upgrade. These are **tooling/dependency-graph advisories**, not evidence that OmniTurbo's packaged runtime API has an exploitable vulnerability.
 
@@ -118,4 +118,4 @@ Original governance onboarding: no dependency patch authorized or applied. Subse
 
 ## Current Decision Summary
 
-**Open / U2; implementation verified in the unaccepted WU-0003 v0.1.4 candidate.** The 2026-11-18 Owner `I ACCEPT OMNITURBO WU-0003` authorized the previously deferred dev-tooling remediation within OmniTurbo. A minimal two-direct-dependency update (Vitest 5.1.1, Rimraf 6.1.4; TypeScript 5.9.3 retained) produces **full and production-only npm audit PASS / zero findings**, plus complete Node 22/24 tests, native packaged consumer and normal gate PASS without exception. WU-0003 remains Active Work / pending full Owner review, and no successor version has been merged, tagged or published. Historical published `v0.1.3` risk and its frozen one-version exception remain unchanged. This Issue is not Closed until the accepted release disposition supports closure.
+**Open / U2; remediation verified in the unaccepted WU-0003 v0.1.4 candidate.** The Owner authorized the bounded remediation in WU-0003. A minimal two-direct-dependency update (Vitest 5.1.1, Rimraf 6.1.4; TypeScript 5.9.3 retained) produced **full and production-only npm audit PASS / zero findings**, complete Node 22/24 tests, native packaged consumer, and normal-gate PASS **without exception**. PR #8's exact head additionally passes both GitHub CI jobs with downloaded, independently checked zero-finding audit artifacts. WU-0003 is **Awaiting Review**; no successor version has been merged, tagged or published. The historical published `v0.1.3` and its frozen one-version exception remain unchanged. The formal Issue stays Open until accepted release evidence supports closure.
