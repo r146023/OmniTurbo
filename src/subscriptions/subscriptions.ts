@@ -1,6 +1,7 @@
 import { generateFastId } from "../core/ids.js";
 import { getParentPaths, normalizePath } from "../core/path.js";
 import type { OmniSubscriber, SubscriberTiming } from "../types/options_types.js";
+import type { OmniIssue } from "../types/issue_types.js";
 
 
 /**
@@ -261,17 +262,35 @@ export class SubscriptionRegistry {
    * path, direct subscribers for all parent paths will also be notified with the current value of
    * the parent path. This allows for more comprehensive notifications but can result in more
    * subscriber calls, so it should be used based on the needs of the application.
-   * @returns void
+   * @returns Sanitized warnings for synchronous subscriber callbacks that failed after commit.
    * @remarks This method is typically called internally by the set operation after a value has been
    * changed, to ensure that all relevant subscribers are notified of the change. It handles the
    * logic for determining which subscribers to notify based on the path and options provided.
    */
-  notify(path: string, value: unknown, oldValue: unknown, getParentValue: (parent: string) => unknown, parentNotifications: boolean): void {
+  notify(path: string, value: unknown, oldValue: unknown, getParentValue: (parent: string) => unknown, parentNotifications: boolean): OmniIssue[] {
     const normalized = normalizePath(path);
+    const issues: OmniIssue[] = [];
+
+    const invoke = (callback: Function, kind: "direct" | "global" | "tree" | "parent", ...args: unknown[]): void => {
+      try {
+        callback(...args);
+      } catch {
+        // Do not expose observer exceptions, private state, or tokens through the writer result.
+        issues.push({
+          code: "OMNI_SUBSCRIBER_CALLBACK_FAILED",
+          severity: "warning",
+          path: normalized,
+          message: "A post-commit subscriber callback failed; the state change remains committed.",
+          source: "subscription",
+          details: { kind },
+        });
+      }
+    };
+
     const direct = this.directSubs.get(normalized);
     if (direct?.size) {
       for (const sub of Array.from(direct.values())) {
-        sub.fn(normalized, value, oldValue);
+        invoke(sub.fn, "direct", normalized, value, oldValue);
         if (sub.once) direct.delete(sub.id);
       }
     }
@@ -279,7 +298,7 @@ export class SubscriptionRegistry {
     const now = Date.now();
     for (const sub of Array.from(this.globalSubscribers.values())) {
       if (sub.throttle && sub.lastTrigger && now - sub.lastTrigger < sub.throttle) continue;
-      sub.fn(normalized, value, oldValue);
+      invoke(sub.fn, "global", normalized, value, oldValue);
       sub.lastTrigger = now;
       if (sub.once) this.globalSubscribers.delete(sub.id);
     }
@@ -288,7 +307,7 @@ export class SubscriptionRegistry {
       const bucket = this.treeSubs.get(parent);
       if (bucket?.size) {
         for (const sub of Array.from(bucket.values())) {
-          sub.fn(parent, normalized, value, oldValue);
+          invoke(sub.fn, "tree", parent, normalized, value, oldValue);
           if (sub.once) bucket.delete(sub.id);
         }
       }
@@ -300,11 +319,13 @@ export class SubscriptionRegistry {
         if (!bucket?.size) continue;
         const parentValue = getParentValue(parent);
         for (const sub of Array.from(bucket.values())) {
-          sub.fn(parent, parentValue, undefined);
+          invoke(sub.fn, "parent", parent, parentValue, undefined);
           if (sub.once) bucket.delete(sub.id);
         }
       }
     }
+
+    return issues;
   }
 
   /**

@@ -294,7 +294,7 @@ export class Omni {
 
     if (!options.silent) {
       if (!options.suppressNotifications) {
-        this.subscriptions.notify(normalized, value, oldValue, (parent) => this.getObj(parent) ?? this.get(parent), this.parentNotifications);
+        issues.push(...this.subscriptions.notify(normalized, value, oldValue, (parent) => this.getObj(parent) ?? this.get(parent), this.parentNotifications));
       }
       if (!options.suppressWaiters) this.checkWaiters();
       if (!options.suppressAlerts) this.subscriptions.triggerAlerts(normalized, value, oldValue);
@@ -485,8 +485,8 @@ export class Omni {
     entry.value = previous;
     this.timeline.add(normalized, oldValue, previous, "undo");
     this.invalidateObjCache(normalized);
-    this.subscriptions.notify(normalized, previous, oldValue, (parent) => this.getObj(parent) ?? this.get(parent), this.parentNotifications);
-    return okResult({ action: "set", path: normalized, value: previous, oldValue, changed: true });
+    const issues = this.subscriptions.notify(normalized, previous, oldValue, (parent) => this.getObj(parent) ?? this.get(parent), this.parentNotifications);
+    return okResult({ action: "set", path: normalized, value: previous, oldValue, changed: true, issues });
   }
 
   clear(): void {

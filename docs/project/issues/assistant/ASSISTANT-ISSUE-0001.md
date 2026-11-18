@@ -10,8 +10,8 @@
 **Closure State:** Open
 **Closure Reason:** N/A
 **Reported:** 2026-11-17 (AVAM evidence), presented for OmniTurbo correction 2026-11-18
-**Last Reviewed:** 2026-11-18 onboarding baseline
-**Next Review Trigger:** Owner decision on exact bounded corrective Work Unit and verified qualification result
+**Last Reviewed:** 2026-11-18 — WU-0001 Project Owner acceptance and closeout
+**Next Review Trigger:** Separate authorized integration of PR #5 and successor package-release readiness, followed by AVAM native-fit qualification with a versioned upstream artifact
 **Affected Versions / Stages:** `@r146023/omniturbo@0.1.2` / `v0.1.2` (`baeb6919ec9720a9506053a4acd284a12c842b54`)
 **Environment:** TypeScript/Node package used by AVAM on isolated S02-P1 branch; upstream code inspected on current OmniTurbo `main`
 
@@ -66,7 +66,7 @@ Synchronous post-commit callbacks are invoked without per-subscriber exception i
 
 ### Resolution State
 
-`Resolution Proposed` — substantive direction endorsed by Owner, separate WA Work Unit authorization still pending.
+`Verified` — WU-0001 correction was locally verified and approved by the Project Owner on 2026-11-18. The Issue remains Open because the corrected branch has not been integrated or released and published v0.1.2 remains affected.
 
 ### Proposed Resolution
 
@@ -79,17 +79,17 @@ Synchronous post-commit callbacks are invoked without per-subscriber exception i
 
 ### Approved Resolution
 
-N/A as a formal WA issue decision. Project Owner expressed agreement with the correction and refinements during pre-adoption discussion; no source-modifying Work Unit was yet activated.
+Owner-approved bounded correction: isolate synchronous post-commit subscriber callback failures individually; return truthful structured success and sanitized subscription warnings without halting eligible listeners; preserve direct/global/tree/parent, once/unsubscribe/throttle, private setter/token security, validation/coercion, undo and batch semantics. Qualify via native tests and packed consumer. Exclude broad diagnostics/async rejection supervision, dependency upgrades, AVAM changes and publication.
 
 ### Resolution Decision Evidence
 
-2026-11-18 Owner conversation accepted the suggested correction direction, followed by instruction to adopt WA 5.7.0 first. Exact implementation acceptance remains governed by the next Work Unit.
+2026-11-18 exact Owner directive: `I APPROVE OMNITURBO ASSISTANT-ISSUE-0001 RESOLUTION AND TIMING; I ACCEPT THE BOUNDED OMNITURBO SUBSCRIBER-ISOLATION CORRECTION ON RAMONAFLOWERS`. WU-0001 owns the active execution envelope.
 
 ## Timing
 
 ### Timing State
 
-`Timing Proposed`
+`Timing Approved`
 
 ### Proposed Timing
 
@@ -97,11 +97,11 @@ After WA 5.7.0 onboarding is accepted and integrated, prioritize this one correc
 
 ### Approved Timing
 
-N/A as a separate formal Issue scheduling record; the Owner expressed intent to proceed after governance setup.
+Immediately after OmniTurbo's WA 5.7.0 adoption and before AVAM S02-P1 native-fit resumes. Implementation authorized now in WU-0001 on RamonaFlowers; no package release, downstream AVAM dependency update, or additional Work Unit implied.
 
 ### Timing Decision Evidence
 
-2026-11-18 conversation; pending formal Work Unit envelope.
+2026-11-18 Owner directive quoted under Resolution Decision Evidence and WU-0001 record.
 
 ## Verification Requirements
 
@@ -115,7 +115,7 @@ N/A as a separate formal Issue scheduling record; the Owner expressed intent to 
 
 ## Implementation / Verification Evidence
 
-None — source work is not yet authorized. No tag, merge, release or AVAM dependency update authorized by this Issue.
+Project Owner-approved WU-0001 on branch `work/subscriber-isolation-0001` / [PR #5](https://github.com/r146023/OmniTurbo/pull/5). Implementation commit `921c4c9c6f95a6612bade470fbab6a83a797853f`; Owner review evidence commit `eaba649db1c7d52cda578c10f837e263068d69e1`. `npm run verify` passed on Node 24: 138/138 tests, typecheck/build, fresh installed-package consumer and pack check. Two desired AVAM native-fit contracts passed against the corrected candidate tarball. GitHub CI Node 22/24 remains blocked by the pre-existing dependency audit (`ASSISTANT-ISSUE-0002`); this is not a claim of full release qualification. No `v0.1.2` tag, GitHub Release, AVAM dependency or main-branch source changes authorized by WU-0001.
 
 ## Related Authorities and Work Units
 
@@ -125,7 +125,8 @@ None — source work is not yet authorized. No tag, merge, release or AVAM depen
 ## Review History
 
 - `docs/project/reviews/integrity/AUDIT-0001.md` — initial onboarding discovery record.
+- `docs/project/reviews/work-units/WU-0001-SUBSCRIBER-ISOLATION.md` — owner-accepted corrective Work Unit, closed 2026-11-18; local verification and limitations retained. Issue remains Open pending integration/release of corrected package.
 
 ## Current Decision Summary
 
-Confirmed generic OmniTurbo defect; bounded safe corrective design proposed; **no currently authorized OmniTurbo source Work Unit**. The project adoption branch does not implement the fix.
+Project Owner approved WU-0001 by `I APPROVE` on 2026-11-18. WU-0001 is **Closed**, with the correction Verified on the isolated PR #5 branch. This Issue remains **Open / Verified** until the corrected source is integrated and a successor released artifact is qualified; published `v0.1.2` remains unchanged and affected. No AVAM dependency update or downstream acceptance is implied.
