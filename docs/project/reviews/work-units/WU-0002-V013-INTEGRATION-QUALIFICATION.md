@@ -98,7 +98,7 @@ I ACCEPT OMNITURBO WU-0002 — INTEGRATE THE APPROVED SUBSCRIBER CORRECTION AND 
 | `npm run verify`: `pack:check` | **PASS** | **PASS** |
 | `npm audit --omit=dev --audit-level=high` (supplemental production graph) | **PASS — 0 findings** | **PASS — 0 findings** |
 | **Required full** `npm audit --audit-level=high` | **FAIL — 9 findings** | **FAIL — 9 findings** |
-| Normal green GitHub Actions / full release contract | **NOT ESTABLISHED** — full audit blocks release readiness | **NOT ESTABLISHED** — full audit blocks release readiness |
+| Normal green GitHub Actions / full release contract | **FAIL at audit** on PR #6; `npm ci` PASS and later `verify` SKIPPED | **FAIL at audit** on PR #6; `npm ci` PASS and later `verify` SKIPPED |
 
 **Audit findings:** 4 moderate, 3 high, **2 critical**. Earlier 12-finding observations are historical; count changed in the live advisory result, not in the locked dependency graph. `npm audit --omit=dev` is additional information **not a replacement for the required full audit**.
 
@@ -146,7 +146,7 @@ I ACCEPT OMNITURBO WU-0002 — INTEGRATE THE APPROVED SUBSCRIBER CORRECTION AND 
 - **Release readiness is BLOCKED.** Current OmniTurbo `docs/releasing.md` and official WA v5.7.0 `RELEASE_STANDARD.md` §4 forbid tagging/publication with a failed full required audit. 9 advisory findings remain in the locked tooling graph, including 2 critical.
 - The supplemental production-only audit passed zero findings because no production dependencies are declared, but it **does not satisfy** the existing full-audit requirement.
 - Candidate source/metadata remains on an **unaccepted Work Unit branch**; authoritative `main` contains the correction but is still at published package metadata `0.1.2`. No `v0.1.3` GitHub Release/npm artifact is externally available.
-- GitHub CI for this version branch will still be red at the existing full-audit step until applicable Owner-authorized resolution. Do not overstate source CI verification.
+- GitHub CI for this version branch is **red at the existing full-audit step** on both Node 22 and Node 24: the exact dependency install PASSed and the later source/build/consumer verification was SKIPPED. [PR #6 run 44364565254](https://github.com/r146023/OmniTurbo/actions/runs/44364565254). Do not overstate source verification from CI; the full local verification passed separately.
 - No acceptance-dependent serial increment or Issue closure is authorized by this report.
 
 ## Next Steps

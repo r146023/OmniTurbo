@@ -42,7 +42,7 @@
 | Native ESM packed consumer and package contents | `npm run test:package`, `npm run pack:check` | **PASS both** |
 | Production graph security audit | `npm audit --omit=dev --audit-level=high` | **PASS; 0 advisories** |
 | Required full security audit | `npm audit --audit-level=high` | **FAIL on both; 9 advisories** |
-| GitHub Actions overall green Node 22 and 24 release gate | Full audit remains enforced in workflows | **NOT ESTABLISHED; pre-existing blocking step** |
+| GitHub Actions overall green Node 22 and 24 release gate | [PR #6 Actions run 44364565254](https://github.com/r146023/OmniTurbo/actions/runs/44364565254): `npm ci` PASS, full audit FAIL, subsequent source/package `verify` step SKIPPED on both Node 22 and 24 | **FAIL at existing security-audit gate** |
 | WU-0002 Owner acceptance | Work Unit still Active / awaiting appropriate review or decision | **NOT YET ACCEPTED** |
 | Matching new `v0.1.3` immutable tag and published artifacts | No tag/Release or npm publication created | **NOT RUN / NOT AUTHORIZED** |
 
