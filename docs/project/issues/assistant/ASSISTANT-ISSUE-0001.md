@@ -7,11 +7,11 @@
 **Severity:** High
 **Urgency:** U1 — review before dependent AVAM integration work
 **Blocks:** AVAM V7 S02-P1 native OmniTurbo fit gate (AVAM WU-0024)
-**Closure State:** Open
-**Closure Reason:** N/A
+**Closure State:** Closed
+**Closure Reason:** Verified synchronous subscriber exception isolation implemented by Owner-approved WU-0001, merged in PR #5 and published in qualified GitHub Release `v0.1.3` on 2026-11-18 (tag `1bead142b2219f320590c0472aee2b3a3af3c766`). Published installable tarball independently downloaded and tested; `v0.1.2` remains historically affected.
 **Reported:** 2026-11-17 (AVAM evidence), presented for OmniTurbo correction 2026-11-18
-**Last Reviewed:** 2026-11-18 — WU-0001 Project Owner acceptance and closeout
-**Next Review Trigger:** Owner review of WU-0002 `v0.1.3` candidate and separately governed release-readiness/Issue review; the published `v0.1.2` remains affected.
+**Last Reviewed:** 2026-11-18 — WU-0002 Owner acceptance, published v0.1.3 verification and formal Issue closeout
+**Next Review Trigger:** None while Closed. Reopen only on new supported regression evidence in an actually qualified successor version; the old `v0.1.2` defect remains historical and unchanged.
 **Affected Versions / Stages:** `@r146023/omniturbo@0.1.2` / `v0.1.2` (`baeb6919ec9720a9506053a4acd284a12c842b54`)
 **Environment:** TypeScript/Node package used by AVAM on isolated S02-P1 branch; upstream code inspected on current OmniTurbo `main`
 
@@ -66,7 +66,7 @@ Synchronous post-commit callbacks are invoked without per-subscriber exception i
 
 ### Resolution State
 
-`Verified` — WU-0001 correction was locally verified and approved by the Project Owner, and its source/closeout was integrated into `main` via PR #5 on 2026-11-18. The Issue remains Open because no corrected successor package has been published; the immutable `v0.1.2` remains affected.
+`Verified / Released` — WU-0001 fix was Owner-approved, integrated into `main` as PR #5 and published in `v0.1.3` following separate WU-0002 Owner acceptance and controlled version-specific security-risk exception. The real installed GitHub tarball was independently verified; `v0.1.2` remains the historically affected artifact.
 
 ### Proposed Resolution
 
@@ -126,8 +126,8 @@ Project Owner-approved WU-0001 on branch `work/subscriber-isolation-0001` / [PR 
 
 - `docs/project/reviews/integrity/AUDIT-0001.md` — initial onboarding discovery record.
 - `docs/project/reviews/work-units/WU-0001-SUBSCRIBER-ISOLATION.md` — owner-accepted corrective Work Unit, closed 2026-11-18 and integrated through PR #5. Issue remains Open pending successor release/qualification.
-- `docs/project/reviews/work-units/WU-0002-V013-INTEGRATION-QUALIFICATION.md` — Owner-authorized `v0.1.3` preparation/qualification; no release acceptance implied.
+- `docs/project/reviews/work-units/WU-0002-V013-INTEGRATION-QUALIFICATION.md` — Owner-approved/Closed WU-0002 and verified v0.1.3 published package; formal release evidence in `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md`.
 
 ## Current Decision Summary
 
-Project Owner approved WU-0001 by `I APPROVE` on 2026-11-18 and authorized WU-0002 integration/qualification. WU-0001 is **Closed**; its verified correction is now present on OmniTurbo `main` through merged PR #5. This Issue remains **Open / Verified** pending a qualified successor package release; published `v0.1.2` remains unchanged and affected. WU-0002 `v0.1.3` is a candidate only, not yet accepted/published.
+**Closed / Verified and Released (2026-11-18).** Owner-approved WU-0001 subscriber correction was merged in PR #5; Owner-approved WU-0002 v0.1.3 risk-accepted release process merged in PR #6 and successfully published as [OmniTurbo v0.1.3](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3). The official GitHub tarball is a tested, installable package containing the corrected behavior. The old v0.1.2 remains immutable and affected; the unrelated dev-tooling audit Issue `ASSISTANT-ISSUE-0002` stays Open/deferred and is not silently resolved.

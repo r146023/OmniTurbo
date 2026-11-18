@@ -3,7 +3,7 @@
 **Record:** V013-RELEASE-READINESS-0001
 **Date:** 2026-11-18
 **Type:** Targeted release-focused Governance Due Check and relevant Issue review
-**Status:** **v0.1.3-only risk exception candidate is tested and Awaiting WU-0002 Owner acceptance.** Full audit remains FAIL (nine known findings); strict exception is separately visible in successful Node 22/24 CI, with raw audit artifacts retained. No release/tag before final `I APPROVE` and integration.
+**Status:** **Completed: Owner-approved, version-specific risk exception consumed for the published v0.1.3 release on 2026-11-18.** Full audit still FAIL with nine known dev-tooling findings, production-only audit PASS/zero; official release contains downloadable full audit reports and installable package. WU-0002 accepted and Closed, normal release gate applies to future versions.
 **Project:** OmniTurbo, governed by published WA v5.7.0
 **Related Work Unit:** WU-0002, accepted WU serial **1** before WU-0002; no WU-0002 acceptance yet
 **Sources:** `docs/private/PROJECT_DATA.md`, `docs/project/reviews/INDEX.md`, `docs/releasing.md`, WA `RELEASE_STANDARD.md` §§2–4 and `PROJECT_REVIEW_AND_AUDIT_STANDARD.md` §§7–8, and both current individual Issue records.
@@ -86,3 +86,11 @@ The original `ASSISTANT-ISSUE-0002` stays **Open** and toolchain remediation def
 **Version protection:** Policy tests reject other versions, changed lockfile, unrecognized vulnerable packages and GHSA advisories, elevated individual advisory severity, new production dependencies and nonzero production audits. `v0.1.3` public release notes are prepared with an explicit development-tooling risk notice.
 
 **Current release-readiness consequence:** The known dev-tooling findings remain, and Issue `ASSISTANT-ISSUE-0002` is still Open/deferred. The narrowly accepted *version-specific exception candidate* and release workflow are ready for the separate WU-0002 Owner acceptance gate. PR #6 is not merged, no `v0.1.3` tag exists, and no release has been published; those steps are prohibited until `I APPROVE`.
+
+## Completed version-specific release disposition — 2026-11-18
+
+Project Owner's exact final `I APPROVE` accepted WU-0002 after reviewing the strict dev-tooling audit exception on PR #6. The source/policy was merged to accepted `main` at `1bead142b2219f320590c0472aee2b3a3af3c766`, then official [v0.1.3 Release run 44375808172](https://github.com/r146023/OmniTurbo/actions/runs/44375808172) **PASSED**, tagged that exact commit and published the installable `.tgz`, full audit JSON, production-only audit JSON, and SHA-256 checksums. All three published file digests were independently validated and the published tarball passed a fresh native ESM subscriber-isolation consumer test.
+
+**Full audit remains FAIL (nine existing tooling findings, two critical).** The production-only audit remains PASS/zero. The named exception was applied exactly once for the `v0.1.3` release under the Owner-approved SHA/fingerprint and explicit disclosure; it does **not** permit another version, risk escalation or future audit bypass. `ASSISTANT-ISSUE-0002` stays Open/U2/deferred. The scheduled `ASSISTANT-ISSUE-0001` subscriber source defect is independently Verified/Released/Closed after the actual installable package publication.
+
+**Authoritative verification:** `docs/project/releases/V0.1.3-RELEASE-VERIFICATION.md`. This record is **Complete** for the v0.1.3 release-focused Issue decision, not a future dependency remediation or general security waiver.

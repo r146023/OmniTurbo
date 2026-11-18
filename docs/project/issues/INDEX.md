@@ -13,9 +13,7 @@ None recorded.
 
 ### Immediate / Before Next Work — U0 / U1
 
-| ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
-|---|---|---|---|---|---|---|---|
-| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes successful write | Confirmed | High | U1 | Consumers of published v0.1.2 until successor package | Verified on `main`; Open pending successor release | Timing Approved |
+None.
 
 ### Normal Queue — U2
 
@@ -29,7 +27,9 @@ None.
 
 ### Closed
 
-None.
+| ID | Title | Resolution | Released in | Closure |
+|---|---|---|---|---|
+| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes a successful write | Verified, fixed, successfully published | [v0.1.3](https://github.com/r146023/OmniTurbo/releases/tag/v0.1.3) | Closed 2026-11-18; v0.1.2 remains historical affected release |
 
 ## Legacy / Unknown-Origin Issues
 
