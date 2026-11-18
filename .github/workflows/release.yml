@@ -47,7 +47,8 @@ jobs:
         with:
           name: release-security-audit
           path: .release-audit/
-          if-no-files-found: ignore
+          if-no-files-found: error
+          include-hidden-files: true
       - name: Verify source, build, and packed consumer
         run: npm run verify
       - name: Build release artifact
