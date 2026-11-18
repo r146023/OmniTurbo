@@ -15,7 +15,7 @@ None recorded.
 
 | ID | Title | Investigation | Severity | Urgency | Blocks | Resolution | Timing |
 |---|---|---|---|---|---|---|---|
-| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes successful write | Confirmed | High | U1 | AVAM S02-P1 until successor package | Verified on accepted branch; Open pending integration/release | Timing Approved |
+| [ASSISTANT-ISSUE-0001](assistant/ASSISTANT-ISSUE-0001.md) | Post-commit subscriber exception escapes successful write | Confirmed | High | U1 | Consumers of published v0.1.2 until successor package | Verified on `main`; Open pending successor release | Timing Approved |
 
 ### Normal Queue — U2
 

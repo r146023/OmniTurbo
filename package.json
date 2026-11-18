@@ -1,6 +1,6 @@
 {
   "name": "@r146023/omniturbo",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "Apache-2.0",
   "description": "A framework-agnostic governed path-state engine with schemas, datatypes, privacy, aliases, history, and subscriptions.",
   "type": "module",
@@ -23,11 +23,12 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
     "test": "vitest run",
+    "test:audit-policy": "node --test scripts/audit-exception-selftest.mjs",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "test:package": "node ./scripts/package-consumer-smoke.mjs",
     "pack:check": "npm pack --dry-run",
-    "verify": "npm run typecheck && npm test && npm run build && npm run test:package && npm run pack:check",
+    "verify": "npm run typecheck && npm test && npm run test:audit-policy && npm run build && npm run test:package && npm run pack:check",
     "prepublishOnly": "npm run verify"
   },
   "keywords": [

@@ -11,7 +11,7 @@
 **Closure Reason:** N/A
 **Reported:** 2026-11-17 (AVAM evidence), presented for OmniTurbo correction 2026-11-18
 **Last Reviewed:** 2026-11-18 — WU-0001 Project Owner acceptance and closeout
-**Next Review Trigger:** Separate authorized integration of PR #5 and successor package-release readiness, followed by AVAM native-fit qualification with a versioned upstream artifact
+**Next Review Trigger:** Owner review of WU-0002 `v0.1.3` candidate and separately governed release-readiness/Issue review; the published `v0.1.2` remains affected.
 **Affected Versions / Stages:** `@r146023/omniturbo@0.1.2` / `v0.1.2` (`baeb6919ec9720a9506053a4acd284a12c842b54`)
 **Environment:** TypeScript/Node package used by AVAM on isolated S02-P1 branch; upstream code inspected on current OmniTurbo `main`
 
@@ -66,7 +66,7 @@ Synchronous post-commit callbacks are invoked without per-subscriber exception i
 
 ### Resolution State
 
-`Verified` — WU-0001 correction was locally verified and approved by the Project Owner on 2026-11-18. The Issue remains Open because the corrected branch has not been integrated or released and published v0.1.2 remains affected.
+`Verified` — WU-0001 correction was locally verified and approved by the Project Owner, and its source/closeout was integrated into `main` via PR #5 on 2026-11-18. The Issue remains Open because no corrected successor package has been published; the immutable `v0.1.2` remains affected.
 
 ### Proposed Resolution
 
@@ -125,8 +125,9 @@ Project Owner-approved WU-0001 on branch `work/subscriber-isolation-0001` / [PR 
 ## Review History
 
 - `docs/project/reviews/integrity/AUDIT-0001.md` — initial onboarding discovery record.
-- `docs/project/reviews/work-units/WU-0001-SUBSCRIBER-ISOLATION.md` — owner-accepted corrective Work Unit, closed 2026-11-18; local verification and limitations retained. Issue remains Open pending integration/release of corrected package.
+- `docs/project/reviews/work-units/WU-0001-SUBSCRIBER-ISOLATION.md` — owner-accepted corrective Work Unit, closed 2026-11-18 and integrated through PR #5. Issue remains Open pending successor release/qualification.
+- `docs/project/reviews/work-units/WU-0002-V013-INTEGRATION-QUALIFICATION.md` — Owner-authorized `v0.1.3` preparation/qualification; no release acceptance implied.
 
 ## Current Decision Summary
 
-Project Owner approved WU-0001 by `I APPROVE` on 2026-11-18. WU-0001 is **Closed**, with the correction Verified on the isolated PR #5 branch. This Issue remains **Open / Verified** until the corrected source is integrated and a successor released artifact is qualified; published `v0.1.2` remains unchanged and affected. No AVAM dependency update or downstream acceptance is implied.
+Project Owner approved WU-0001 by `I APPROVE` on 2026-11-18 and authorized WU-0002 integration/qualification. WU-0001 is **Closed**; its verified correction is now present on OmniTurbo `main` through merged PR #5. This Issue remains **Open / Verified** pending a qualified successor package release; published `v0.1.2` remains unchanged and affected. WU-0002 `v0.1.3` is a candidate only, not yet accepted/published.

@@ -39,8 +39,16 @@ jobs:
           echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> "${GITHUB_ENV}"
       - name: Install exact dependency graph
         run: npm ci
-      - name: Audit production/package graph
-        run: npm audit --audit-level=high
+      - name: Audit full and production dependency graphs with strict v0.1.3 exception guard
+        run: node scripts/verify-audit-gate.mjs
+      - name: Preserve full audit reports in workflow artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-security-audit
+          path: .release-audit/
+          if-no-files-found: error
+          include-hidden-files: true
       - name: Verify source, build, and packed consumer
         run: npm run verify
       - name: Build release artifact
@@ -48,21 +56,42 @@ jobs:
         run: |
           mkdir -p release
           npm pack --pack-destination release
-          sha256sum release/*.tgz > release/SHA256SUMS
+          cp .release-audit/full.json release/SECURITY-AUDIT-FULL.json
+          cp .release-audit/production.json release/SECURITY-AUDIT-PRODUCTION.json
+          sha256sum release/*.tgz release/SECURITY-AUDIT-*.json > release/SHA256SUMS
       - name: Create or update GitHub Release
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
-            gh release upload "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS --clobber
+          if [ "${RELEASE_TAG}" = "v0.1.3" ]; then
+            # One-time, Owner-reviewed exception release: never overwrite an existing artifact.
+            if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+              echo "::error::v0.1.3 GitHub Release already exists; refusing to overwrite it."
+              exit 1
+            fi
+            if [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
+              # Create the immutable tag from the accepted main commit before creating the Release.
+              if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
+                echo "::error::v0.1.3 tag already exists; require separate recovery disposition."
+                exit 1
+              fi
+              gh api -X POST "repos/${GITHUB_REPOSITORY}/git/refs" \
+                -f ref="refs/tags/${RELEASE_TAG}" -f sha="${GITHUB_SHA}"
+            fi
+            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS release/SECURITY-AUDIT-*.json \
+              --verify-tag \
+              --notes-file docs/project/releases/V0.1.3-PUBLIC-RELEASE-NOTES.md \
+              --title "OmniTurbo ${RELEASE_TAG}"
+          elif gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            gh release upload "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS release/SECURITY-AUDIT-*.json --clobber
           elif [ "${GITHUB_EVENT_NAME}" = "workflow_dispatch" ]; then
-            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS \
+            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS release/SECURITY-AUDIT-*.json \
               --target "${GITHUB_SHA}" \
               --generate-notes \
               --title "OmniTurbo ${RELEASE_TAG}"
           else
-            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS \
+            gh release create "${RELEASE_TAG}" release/*.tgz release/SHA256SUMS release/SECURITY-AUDIT-*.json \
               --verify-tag \
               --generate-notes \
               --title "OmniTurbo ${RELEASE_TAG}"
