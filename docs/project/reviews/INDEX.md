@@ -38,7 +38,7 @@
 ## Currently Due
 
 - No cadence review due at serial 0 after the recorded initial baseline. Current authoritative application of this baseline requires integration of PR #4 into `main`.
-- **Current owner disposition:** `ASSISTANT-ISSUE-0001` (U1) remains the critical AVAM-blocking correction and requires a separate explicit `I ACCEPT` before source changes. `ASSISTANT-ISSUE-0002` (U2) remains open but its remediation is deferred by Owner until after critical OmniTurbo/AVAM work; pre-existing audit failures do not block governance-only adoption or a bounded corrective implementation. A separately authorized package release still must address its own qualification/exception decision. Neither Issue grants implementation authority.
+- **Current Owner disposition:** `ASSISTANT-ISSUE-0001` (U1) has resolution/timing Approved and is being implemented under Owner-authorized WU-0001 on RamonaFlowers. Accepted Work Unit Serial remains 0 until Owner approval/closeout. `ASSISTANT-ISSUE-0002` (U2) remains Open with remediation deferred; red pre-existing audit is not a blocker to WU-0001 implementation, but release qualification is separate.
 
 ## Event-Triggered Requirements
 
@@ -52,4 +52,4 @@
 
 - The `v0.1.2` release and pre-WA project history are preserved as history, not falsely numbered native WA Work Units.
 - The governance records on this branch are not automatically accepted on `main`.
-- The next corrective Work Unit remains unauthorized. The existing AVAM authorization does not transfer to OmniTurbo.
+- Active corrective WU-0001: `work-units/WU-0001-SUBSCRIBER-ISOLATION.md` (Owner-authorized 2026-11-18). Acceptance-dependent state/serial remain unchanged; AVAM implementation and package release have separate gates.
